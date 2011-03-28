@@ -683,6 +683,7 @@ void StarSystem::CustomGetKidsOf(SBody *parent, const std::list<CustomSBody> *ch
 		if (kid->type == SBody::TYPE_PLANET_ASTEROID) kid->mass /= 100000;
 
 		kid->m_metallicity    = csbody->metallicity;
+		kid->m_oreAbundance   = csbody->oreAbundance;
 		kid->m_volatileGas    = csbody->volatileGas;
 		kid->m_volatileLiquid = csbody->volatileLiquid;
 		kid->m_volatileIces   = csbody->volatileIces;
@@ -953,6 +954,7 @@ try_that_again_guvnah:
 	}
 
 	m_metallicity = starMetallicities[rootBody->type];
+	m_oreAbundance = m_metallicity;  //temp - CHANGE
 
 	for (int i=0; i<m_numStars; i++) MakePlanetsAround(star[i], rand);
 
@@ -1238,6 +1240,7 @@ void SBody::PickPlanetType(StarSystem *system, MTRand &rand)
 	radius = fixed::CubeRootOf(mass);
 	
 	m_metallicity = system->m_metallicity * rand.Fixed();
+	m_oreAbundance = system->m_oreAbundance * rand.Fixed();
 	// harder to be volcanic when you are tiny (you cool down)
 	m_volcanicity = std::min(fixed(1,1), mass) * rand.Fixed();
 	m_atmosOxidizing = rand.Fixed();
@@ -1448,6 +1451,7 @@ void SBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 	} else {
 		// don't bother populating crap planets
 		if (m_metallicity < fixed(5,10)) return;
+		if (m_oreAbundance < fixed(2,10)) return;
 	}
 
 	const int NUM_CONSUMABLES = 10;

@@ -56,6 +56,10 @@ ObjectViewerView::ObjectViewerView(): View()
 	m_sbodyMetallicity = new Gui::TextEntry();
 	vbox->PackEnd(m_sbodyMetallicity);
 
+	vbox->PackEnd(new Gui::Label("Ore Abundance (0-1):"));
+	m_sbodyOreAbundance = new Gui::TextEntry();
+	vbox->PackEnd(m_sbodyOreAbundance);
+
 	Gui::LabelButton *b = new Gui::LabelButton(new Gui::Label("Change planet terrain type"));
 	b->onClick.connect(sigc::mem_fun(this, &ObjectViewerView::OnChangeGeoSphereStyle));
 	vbox->PackEnd(b);
@@ -122,6 +126,7 @@ void ObjectViewerView::Update()
 			m_sbodyLife->SetText(stringf(64, "%.3f", sbody->m_life.ToFloat()));
 			m_sbodyVolcanicity->SetText(stringf(64, "%.3f", sbody->m_volcanicity.ToFloat()));
 			m_sbodyMetallicity->SetText(stringf(64, "%.3f", sbody->m_metallicity.ToFloat()));
+			m_sbodyOreAbundance->SetText(stringf(64, "%.3f", sbody->m_oreAbundance.ToFloat()));
 			m_sbodySeed->SetText(stringf(64, "%d", sbody->seed));
 			m_sbodyMass->SetText(stringf(64, "%f", sbody->mass.ToFloat()));
 			m_sbodyRadius->SetText(stringf(64, "%f", sbody->radius.ToFloat()));
@@ -141,6 +146,7 @@ void ObjectViewerView::OnChangeGeoSphereStyle()
 	const fixed life = fixed((int)65536.0*atof(m_sbodyLife->GetText().c_str()), 65536);
 	const fixed volcanicity = fixed((int)65536.0*atof(m_sbodyVolcanicity->GetText().c_str()), 65536);
 	const fixed metallicity = fixed((int)65536.0*atof(m_sbodyMetallicity->GetText().c_str()), 65536);
+	const fixed oreAbundance = fixed((int)65536.0*atof(m_sbodyOreAbundance->GetText().c_str()), 65536);
 	const fixed mass = fixed((int)65536.0*atof(m_sbodyMass->GetText().c_str()), 65536);
 	const fixed radius = fixed((int)65536.0*atof(m_sbodyRadius->GetText().c_str()), 65536);
 
@@ -153,6 +159,7 @@ void ObjectViewerView::OnChangeGeoSphereStyle()
 	sbody.mass = mass;
 	sbody.averageTemp = 273;
 	sbody.m_metallicity = metallicity;
+	sbody.m_oreAbundance = oreAbundance;
 	sbody.m_volatileGas = volatileGas;
 	sbody.m_volatileLiquid = volatileLiquid;
 	sbody.m_volatileIces = volatileIces;

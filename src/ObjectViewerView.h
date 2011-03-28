@@ -28,6 +28,7 @@ private:
 	Gui::TextEntry *m_sbodyLife;
 	Gui::TextEntry *m_sbodyVolcanicity;
 	Gui::TextEntry *m_sbodyMetallicity;
+	Gui::TextEntry *m_sbodyOreAbundance;
 	void OnChangeGeoSphereStyle();
 };
 

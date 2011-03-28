@@ -183,6 +183,7 @@ public:
 
 	/* composition */
 	fixed m_metallicity; // (crust) 0.0 = light (Al, SiO2, etc), 1.0 = heavy (Fe, heavy metals)
+	fixed m_oreAbundance; // ore decided in metallicity, this decides quantity of said ore. 0= marginal, 1= abundant
 	fixed m_volatileGas; // 1.0 = earth atmosphere density
 	fixed m_volatileLiquid; // 1.0 = 100% ocean cover (earth = 70%)
 	fixed m_volatileIces; // 1.0 = 100% ice cover (earth = 3%)
@@ -247,6 +248,7 @@ public:
 	std::vector<SBody*> m_bodies;
 	
 	fixed m_metallicity;
+	fixed m_oreAbundance;
 	fixed m_industrial;
 	fixed m_agricultural;
 
