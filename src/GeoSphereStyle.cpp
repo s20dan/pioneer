@@ -460,7 +460,7 @@ void GeoSphereStyle::SetFracDef(struct fracdef_t *def, double featureHeightMeter
 	def->frequency = m_planetRadius / featureWidthMeters;
 	def->octaves = std::max(1, (int)ceil(log(featureWidthMeters / smallestOctaveMeters) / log(2.0)));
 	def->lacunarity = 2.0;
-	printf("%d octaves\n", def->octaves); //print
+	//printf("%d octaves\n", def->octaves); //print
 }
 
 void GeoSphereStyle::InitFractalType(MTRand &rand)

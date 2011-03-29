@@ -60,6 +60,25 @@ void SystemInfoView::OnBodySelected(SBody *b)
 
 	if (b->parent) {
 		float days = (float)b->orbit.period / (60*60*24);
+		double metallicity = b->m_metallicity.ToDouble();
+		if (b->type == SBody::TYPE_PLANET_TERRESTRIAL) {
+			if (metallicity > 0.9) { 
+				data = stringf(64, "Various very heavy metals");
+			} else if (metallicity > 0.8) {
+				data = stringf(64, "Iron and various heavy metals");
+			} else if (metallicity > 0.6) {
+				data = stringf(64, "Mostly Iron and metamorphic rock");
+			} else if (metallicity > 0.4) {
+				data = stringf(64, "Some Iron and igneous rock");
+			} else if (metallicity > 0.2) {
+				data = stringf(64, "Mostly sedimentary and igneous rock");
+			} else {
+				data = stringf(64, "Silicates such as Aluminium silicate");
+			}
+			_add_label_and_value("Crust composition", data);
+			printf("%s\n", b->name.c_str());
+			printf("Metallicity: %.1f\n", metallicity);
+		}
 		if (days > 1000) {
 			data = stringf(64, "%.1f years", days/365);
 		} else {
