@@ -954,7 +954,7 @@ try_that_again_guvnah:
 	}
 
 	m_metallicity = starMetallicities[rootBody->type];
-	m_oreAbundance = rand.Double(0,2)*m_metallicity;  //temp - CHANGE
+	m_oreAbundance = rand.Int32(0,2)*m_metallicity;  //temp - CHANGE
 
 	for (int i=0; i<m_numStars; i++) MakePlanetsAround(star[i], rand);
 
@@ -1240,11 +1240,12 @@ void SBody::PickPlanetType(StarSystem *system, MTRand &rand)
 	radius = fixed::CubeRootOf(mass);
 	
 	//m_metallicity = system->m_metallicity * rand.Fixed();
-	m_metallicity = system->m_metallicity * rand.Double(1,20) * rand.Fixed();
+	m_metallicity = system->m_metallicity * rand.Int32(1,20) * rand.Fixed();
 	m_metallicity = m_metallicity/10;
-	//printf("%s\n", system->m_name.c_str());
-	//printf("Metallicity: %.1f\n", m_metallicity.ToDouble());
 	m_oreAbundance = system->m_oreAbundance * rand.Fixed();
+	printf("%s\n", system->m_name.c_str());
+	printf("Metallicity: %.1f\n", m_metallicity.ToDouble());
+	printf("Abundance: %.1f\n", m_oreAbundance.ToDouble());
 	// harder to be volcanic when you are tiny (you cool down)
 	m_volcanicity = std::min(fixed(1,1), mass) * rand.Fixed();
 	m_atmosOxidizing = rand.Fixed();
