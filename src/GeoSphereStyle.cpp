@@ -299,7 +299,7 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
 				TERRAIN_MOUNTAINS_RIVERS_VOLCANO,
 			};
 			m_terrainType = choices[rand.Int32(6)];
-			//m_terrainType = TERRAIN_MOUNTAINS_NORMAL;
+			//m_terrainType = TERRAIN_HILLS_NORMAL;
 			m_colorType = COLOR_EARTHLIKE;
 		} else if ((body->m_volatileGas > fixed(2,10)) &&
 				  (body->m_life > fixed(1,10)) ) {
@@ -314,7 +314,7 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
 				TERRAIN_RUGGED_DESERT,
 			};
 			m_terrainType = choices[rand.Int32(7)];
-			//m_terrainType = TERRAIN_MOUNTAINS_RIVERS;
+			//m_terrainType = TERRAIN_HILLS_NORMAL;
 			m_colorType = COLOR_TFGOOD;
 		} else if ((body->m_volatileLiquid < fixed(1,10)) &&
 		           (body->m_volatileGas > fixed(1,5))) {
@@ -1727,30 +1727,17 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		// water
 		if (n <= 0) {
 			if (m_heightMap) {	
-<<<<<<< HEAD
-=======
 				// waves
->>>>>>> 9d864fdda0576372153dfd071a4873063c27b98b
 				n += dunes_octavenoise(m_fracdef[2], 0.5, p);
 				n *= 0.1;
 			} else {
 			// Oooh, pretty coastal regions with shading based on underwater depth.
-<<<<<<< HEAD
-				n += continents - (m_fracdef[0].amplitude*m_sealevel*0.45);
-				n *= 8.0;
-=======
-				n += continents - (m_fracdef[0].amplitude*m_sealevel*0.49);
+				n += continents - (m_fracdef[0].amplitude*m_sealevel*0.494);
 				n *= 100.0;
 				// waves
 				n += dunes_octavenoise(m_fracdef[2], 0.5, p);
-				n *= 0.05;
->>>>>>> 9d864fdda0576372153dfd071a4873063c27b98b
-			}
-			//n += dunes_octavenoise(m_fracdef[2], 0.7, p);
-			//n += dunes_octavenoise(m_fracdef[3], 0.7, p);
-			//n += -0.5;
-			//n = n*0.1;
-			//col = interpolate_color(n, vector3d(0,0,0.35), vector3d(0,0.09,0.375));
+				n *= 0.2;
+
 			col = interpolate_color(equatorial_desert, vector3d(0,0,0.15), vector3d(0,0,0.25));
 			col = interpolate_color(n, col, vector3d(0,0.98,0.6));
 			//adds icebergs... sort of.. ;)
@@ -1759,6 +1746,7 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 			//} else return col;
 			//return vector3d(0,0,0.5);
 			return col;
+			}
 		}
 
 		// More sensitive height detection for application of colours
@@ -1806,7 +1794,8 @@ vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector
 		return col;
 		}
 	}
-	case COLOR_DEAD_WITH_H2O: {
+	case COLOR_DEAD_WITH_H2O:
+	{
 		double n = m_invMaxHeight*height;
 		if (n <= 0) return vector3d(0.0,0.0,0.5);
 		else return interpolate_color(n, vector3d(.2,.2,.2), vector3d(.6,.6,.6));
