@@ -7,7 +7,7 @@
 #include "PiLuaModules.h"
 #include "mylua.h"
 #include "PiLuaAPI.h"
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(__MINGW32__)
 #include "win32-dirent.h"
 #else
 #include <dirent.h>
