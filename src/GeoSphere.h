@@ -6,7 +6,7 @@
 #include "GeoSphereStyle.h"
 
 extern int GEOPATCH_EDGELEN;
-#define ATMOSPHERE_RADIUS 1.015
+#define ATMOSPHERE_RADIUS 1.025 //1.015
 
 class SBody;
 class GeoPatch;
@@ -38,6 +38,11 @@ public:
 	}
 	// in sbody radii
 	double GetMaxFeatureHeight() const { return m_style.GetMaxHeight(); }
+
+	//hacks
+	vector3d hackCamPos;
+	vector3f lightDir;
+	void DrawAtmosphere(const vector3d& campos);
 private:
 	void BuildFirstPatches();
 	GeoPatch *m_patches[6];

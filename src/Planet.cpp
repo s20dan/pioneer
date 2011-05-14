@@ -370,7 +370,6 @@ void Planet::DrawAtmosphere(vector3d &pos)
 
 void Planet::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
-
 	matrix4x4d ftran = viewTransform;
 	vector3d fpos = viewCoords;
 	double rad = sbody->GetRadius();
@@ -398,6 +397,35 @@ void Planet::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		shrink++;
 	}
 	//if (GetLabel() == "Earth") printf("Horizon %fkm, shrink %d\n", dist_to_horizon*0.001, shrink);
+
+//horrible hacks start
+	//had some weird problem wih camera position, either the scattering
+	//or the terrain LOD appeared wrong (looked fine from space)
+	glPushMatrix();
+	glTranslatef((float)fpos.x, (float)fpos.y, (float)fpos.z);
+	glScaled(rad, rad, rad);
+	ftran.ClearToRotOnly();
+	glMultMatrixd(&ftran[0]);
+	vector3f hpos = ftran.InverseOf() * fpos;
+	hpos = hpos / rad;
+	hpos = -hpos;
+	vector3d hackpos = hpos;
+
+	//calculate light position - we just assume light 0, should actually
+	//use closest star
+	matrix4x4f invViewRot;
+	glGetFloatv(GL_MODELVIEW_MATRIX, &invViewRot[0]);
+	invViewRot.ClearToRotOnly();
+	invViewRot = invViewRot.InverseOf();
+	const int numLights = Pi::worldView->GetNumLights();
+	assert(numLights > 0);
+	float temp[4];
+	glGetLightfv(GL_LIGHT0, GL_POSITION, temp);
+	m_geosphere->lightDir = (invViewRot * vector3f(temp[0], temp[1], temp[2])).Normalized();
+
+	m_geosphere->hackCamPos = hackpos;
+	glPopMatrix();
+//horrible hacks end
 
 	glPushMatrix();
 	glTranslatef((float)fpos.x, (float)fpos.y, (float)fpos.z);
@@ -468,13 +496,13 @@ void Planet::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
 		glPushMatrix();
 		glScaled(rad, rad, rad);
 		campos = campos * (1.0/rad);
-		m_geosphere->Render(campos, sbody->GetRadius(), scale);
+		m_geosphere->Render(campos, 1.0, scale);
 		
 		if (sbody->GetSuperType() == SBody::SUPERTYPE_GAS_GIANT) DrawGasGiantRings();
 		
-		fpos = ftran.InverseOf() * fpos;
+		/*fpos = ftran.InverseOf() * fpos;
 		fpos *= (1.0/rad);
-		if (!Render::AreShadersEnabled()) DrawAtmosphere(fpos);
+		if (!Render::AreShadersEnabled()) DrawAtmosphere(fpos);*/
 		
 		glPopMatrix();
 		glDisable(GL_NORMALIZE);

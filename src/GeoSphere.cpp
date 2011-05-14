@@ -27,7 +27,26 @@ SHADER_CLASS_BEGIN(GeosphereShader)
 	SHADER_UNIFORM_FLOAT(geosphereAtmosFogDensity)
 SHADER_CLASS_END()
 
+//will add uniforms as needed - for testing just tweak the shaders
+SHADER_CLASS_BEGIN(ScatteringGroundShader)
+	SHADER_UNIFORM_VEC3(cameraPos)
+	SHADER_UNIFORM_VEC3(lightPos)
+	SHADER_UNIFORM_FLOAT(innerRadius)
+	SHADER_UNIFORM_FLOAT(Kr)
+	//SHADER_UNIFORM_VEC3(wavelength)
+SHADER_CLASS_END()
+
+SHADER_CLASS_BEGIN(ScatteringAtmosphereShader)
+	SHADER_UNIFORM_VEC3(cameraPos)
+	SHADER_UNIFORM_VEC3(lightPos)
+	SHADER_UNIFORM_FLOAT(innerRadius)
+	SHADER_UNIFORM_FLOAT(Kr)
+	//SHADER_UNIFORM_VEC3(wavelength)
+SHADER_CLASS_END()
+
 static GeosphereShader *s_geosphereSurfaceShader[4], *s_geosphereSkyShader[4];
+static ScatteringGroundShader *s_groundFromSpace, *s_groundFromAtmosphere;
+static ScatteringAtmosphereShader *s_skyFromSpace, *s_skyFromAtmosphere;
 
 #pragma pack(4)
 struct VBOVertex
@@ -1000,6 +1019,10 @@ void GeoSphere::Init()
 	s_geosphereSkyShader[1] = new GeosphereShader("geosphere_sky", "#define NUM_LIGHTS 2\n");
 	s_geosphereSkyShader[2] = new GeosphereShader("geosphere_sky", "#define NUM_LIGHTS 3\n");
 	s_geosphereSkyShader[3] = new GeosphereShader("geosphere_sky", "#define NUM_LIGHTS 4\n");
+	s_groundFromSpace = new ScatteringGroundShader("scatteringGround", "#define SPACE 1\n");
+	s_groundFromAtmosphere = new ScatteringGroundShader("scatteringGround");
+	s_skyFromSpace = new ScatteringAtmosphereShader("scatteringAtmosphere", "#define SPACE 1\n");
+	s_skyFromAtmosphere = new ScatteringAtmosphereShader("scatteringAtmosphere");
 	s_allGeospheresLock = SDL_CreateMutex();
 	OnChangeDetailLevel();
 #ifdef GEOSPHERE_USE_THREADING
@@ -1175,9 +1198,9 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 	// no frustum test of entire geosphere, since Space::Render does this
 	// for each body using its GetBoundingRadius() value
 
+	double atmosDensity = 0.0;
 	if (Render::AreShadersEnabled()) {
 		Color atmosCol;
-		double atmosDensity;
 		matrix4x4d modelMatrix;
 		glGetDoublev (GL_MODELVIEW_MATRIX, &modelMatrix[0]);
 		vector3d center = modelMatrix * vector3d(0.0, 0.0, 0.0);
@@ -1185,7 +1208,8 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 		GetAtmosphereFlavor(&atmosCol, &atmosDensity);
 		atmosDensity *= 0.00005;
 
-		if (atmosDensity != 0.0) {
+#if 0
+		/*if (atmosDensity != 0.0) {
 			GeosphereShader *shader = s_geosphereSkyShader[Render::State::GetNumLights()-1];
 			Render::State::UseProgram(shader);
 			shader->set_geosphereScale(scale);
@@ -1201,7 +1225,7 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 			// show ugly polygonal angles
 			DrawAtmosphereSurface(campos, atmosRadius*1.01);
 			glDisable(GL_BLEND);
-		}
+		}*/
 
 		GeosphereShader *shader = s_geosphereSurfaceShader[Render::State::GetNumLights()-1];
 		Render::State::UseProgram(shader);
@@ -1210,6 +1234,19 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 		shader->set_geosphereAtmosFogDensity(atmosDensity);
 		shader->set_atmosColor(atmosCol.r, atmosCol.g, atmosCol.b, atmosCol.a);
 		shader->set_geosphereCenter(center.x, center.y, center.z);
+#else //new atmosphere stuff
+		ScatteringGroundShader *s = s_groundFromSpace;
+		if (campos.Length() < ATMOSPHERE_RADIUS)
+			s = s_groundFromAtmosphere;
+		Render::State::UseProgram(s);
+		s->set_cameraPos(hackCamPos.x, hackCamPos.y, hackCamPos.z);
+		s->set_lightPos(lightDir.x, lightDir.y, lightDir.z);
+		s->set_innerRadius(1.f);
+		if(atmosDensity > 0.0)
+			s->set_Kr(0.0025f);
+		else //in vacuum we might as well not use the shader but this works too
+			s->set_Kr(0.0f);
+#endif
 	}
 
 	if (!m_patches[0]) BuildFirstPatches();
@@ -1237,8 +1274,8 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 	glMaterialfv (GL_FRONT, GL_EMISSION, black);
 	glEnable(GL_COLOR_MATERIAL);
 
-//	glLineWidth(1.0);
-//	glPolygonMode(GL_FRONT, GL_LINE);
+	//glLineWidth(1.0);
+	//glPolygonMode(GL_FRONT, GL_LINE);
 	for (int i=0; i<6; i++) {
 		m_patches[i]->Render(campos, planes);
 	}
@@ -1250,9 +1287,13 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 	// if the update thread has deleted any geopatches, destroy the vbos
 	// associated with them
 	DestroyVBOs();
-		/*this->m_tempCampos = campos;
-		UpdateLODThread(this);
-		return;*/
+	/*this->m_tempCampos = campos;
+	UpdateLODThread(this);
+	return;*/
+	
+	if(atmosDensity > 0.0) {
+		DrawAtmosphere(campos);
+	}
 	
 	if (!m_runUpdateThread) {
 		this->m_tempCampos = campos;
@@ -1264,3 +1305,22 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 #endif /* !GEOSPHERE_USE_THREADING */
 }
 
+void GeoSphere::DrawAtmosphere(const vector3d& campos)
+{
+	glFrontFace(GL_CW);
+	ScatteringAtmosphereShader* s = s_skyFromSpace;
+	if (campos.Length() < ATMOSPHERE_RADIUS)
+		s = s_skyFromAtmosphere;
+	Render::State::UseProgram(s);
+	s->set_cameraPos(hackCamPos.x, hackCamPos.y, hackCamPos.z);
+	s->set_lightPos(lightDir.x, lightDir.y, lightDir.z);
+	s->set_innerRadius(1.f);
+	s->set_Kr(0.0025f);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_ONE, GL_ONE);
+	//todo: LOD
+	gluSphere(Pi::gluQuadric, ATMOSPHERE_RADIUS, 100, 100);
+	glDisable(GL_BLEND);
+	glFrontFace(GL_CCW);
+	Render::State::UseProgram(0);
+}
