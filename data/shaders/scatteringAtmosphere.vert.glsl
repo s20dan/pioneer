@@ -64,7 +64,7 @@ void main(void)
 	fSamples = 2.0;
 	nSamples = 2;
 	fScale = 1.0 / (fOuterRadius - innerRadius);
-	fScaleDepth = 0.25;
+	fScaleDepth = 0.75-((lightPos*lightPos)/2.0);
 	fScaleOverScaleDepth = (1.0 / (fOuterRadius - innerRadius)) / fScaleDepth;
 
 	// Get the ray from the camera to the vertex and its length (which is the far point of the ray passing through the atmosphere)
