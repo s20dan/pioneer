@@ -11,6 +11,7 @@ uniform vec3 lightPos;		// The direction vector to the light source
 vec3 v3InvWavelength;		// 1 / pow(wavelength, 4) for the red, green, and blue channels
 float fCameraHeight;		// The camera's current height
 float fCameraHeight2;		// fCameraHeight^2
+float fCheat;				// fCameraHeight Clamped
 uniform float innerRadius;	// The inner (planetary) radius
 float innerRadius2;			// innerRadius^2
 float fOuterRadius;			// The outer (atmosphere) radius
@@ -46,6 +47,8 @@ void main(void)
 	//todo: calculate these outside shader
 	fCameraHeight = length(cameraPos);
 	fCameraHeight2 = fCameraHeight * fCameraHeight;
+	fCheat = (fCameraHeight * 50.0) - 50.0;
+	fCheat = (fCheat < 0.5) ? 0.5 : (fCheat > 0.8) ? 0.8 : fCheat;
 	fOuterRadius = innerRadius * 1.025;
 	innerRadius2 = innerRadius * innerRadius;
 	fOuterRadius2 = innerRadius * 1.025 * innerRadius * 1.025;
@@ -64,7 +67,7 @@ void main(void)
 	fSamples = 2.0;
 	nSamples = 2;
 	fScale = 1.0 / (fOuterRadius - innerRadius);
-	fScaleDepth = 0.75-((lightPos*lightPos)/2.0);
+	fScaleDepth = 0.286 * (0.7/fCheat);//0.5-((lightPos*lightPos)/3.0);
 	fScaleOverScaleDepth = (1.0 / (fOuterRadius - innerRadius)) / fScaleDepth;
 
 	// Get the ray from the camera to the vertex and its length (which is the far point of the ray passing through the atmosphere)
@@ -89,7 +92,7 @@ void main(void)
 	float fStartOffset = fStartDepth*scale(fStartAngle);
 #else
 	vec3 v3Start = cameraPos;
-	float fHeight = length(v3Start);
+	float fHeight = length(v3Start)*(0.7/fCheat);//*fCheat;
 	float fDepth = exp(fScaleOverScaleDepth * (innerRadius - fCameraHeight));
 	float fStartAngle = dot(v3Ray, v3Start) / fHeight;
 	float fStartOffset = fDepth*scale(fStartAngle);

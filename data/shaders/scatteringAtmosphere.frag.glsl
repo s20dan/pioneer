@@ -17,9 +17,10 @@ void main (void)
 	float g = -0.95f;
 	float g2 = g * g;
 	float fCos = dot(lightPos, v3Direction) / length(v3Direction);
-	float fRayleighPhase = 2.0;// * (1.0 + fCos*fCos);
-	float fMiePhase = 0.25 * ((1.0 - g2) / (2.0 + g2)) * (1.0 + fCos*fCos) / pow(1.0 + g2 - 2.0*g*fCos, 1.5);
+	float fRayleighPhase = 1.5;// * (1.0 + fCos*fCos);
+	float fMiePhase = 0.1 * ((1.0 - g2) / (2.0 + g2)) * (1.0 + fCos*fCos) / pow(1.0 + g2 - 2.0*g*fCos, 1.5);
 	gl_FragColor = (fRayleighPhase * gl_Color + fMiePhase * gl_SecondaryColor);
+	//gl_FragColor /= 1.5;
 #ifdef ZHACK
 	SetFragDepth(gl_TexCoord[6].z);
 #endif
