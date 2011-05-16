@@ -243,7 +243,13 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
 			};
 			m_terrainType = choices[rand.Int32(2)];
 			//m_terrainType = TERRAIN_MOUNTAINS_NORMAL;
-			m_colorType = COLOR_EARTHLIKE;
+			if (body->averageTemp > 240) {
+				m_colorType = COLOR_EARTHLIKE;
+			} else {
+				m_colorType = COLOR_DESERT;
+			}
+			printf("earthlike temp: %d\n", body->averageTemp);
+
 		} else if ((body->m_volatileGas > fixed(2,10)) &&
 				  (body->m_life > fixed(4,10)) ) {
 			const enum TerrainFractal choices[] = {
@@ -258,7 +264,12 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
 			};
 			m_terrainType = choices[rand.Int32(2)];
 			//m_terrainType = TERRAIN_MOUNTAINS_RIVERS;
-			m_colorType = COLOR_TFGOOD;
+			if (body->averageTemp > 240) {
+				m_colorType = COLOR_TFGOOD;;
+			} else {
+				m_colorType = COLOR_ICEWORLD;
+			}
+			printf("earth/mars-like temp: %d\n", body->averageTemp);
 		} else if ((body->m_volatileGas > fixed(1,10)) &&
 				  (body->m_life > fixed(1,10)) ) {
 			const enum TerrainFractal choices[] = {
@@ -273,7 +284,12 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
 			};
 			m_terrainType = choices[rand.Int32(2)];
 			//m_terrainType = TERRAIN_MOUNTAINS_RIVERS;
-			m_colorType = COLOR_TFPOOR;
+			if (body->averageTemp > 240) {
+				m_colorType = COLOR_TFPOOR;;
+			} else {
+				m_colorType = COLOR_ICEWORLD;
+			}
+			printf("marslike temp: %d\n", body->averageTemp);
 		} else if ((body->m_volatileLiquid < fixed(1,10)) &&
 		           (body->m_volatileGas > fixed(1,5))) {
 			const enum TerrainFractal choices[] = {
@@ -287,7 +303,7 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
 			//m_terrainType = TERRAIN_MOUNTAINS_NORMAL;
 			m_colorType = COLOR_DESERT;
 		} else if ((body->m_volatileIces > fixed(8,10)) &&  
-		           (body->averageTemp < fixed(250))) {
+		           (body->averageTemp < 250)) {
 			const enum TerrainFractal choices[] = {
 				TERRAIN_HILLS_CRATERS,
 				TERRAIN_MOUNTAINS_CRATERS,
@@ -434,7 +450,7 @@ void GeoSphereStyle::SetFracDef(struct fracdef_t *def, double featureHeightMeter
 	// feature 
 	def->amplitude = featureHeightMeters / (m_maxHeight * m_planetRadius);
 	def->frequency = m_planetRadius / featureWidthMeters;
-	def->octaves = std::max(1, (int)ceil(log(featureWidthMeters / smallestOctaveMeters) / log(2.0)));
+	def->octaves = std::max(1, int(ceil(log(featureWidthMeters / smallestOctaveMeters) / log(2.0))));
 	def->lacunarity = 2.0;
 	printf("%d octaves\n", def->octaves); //print
 }
