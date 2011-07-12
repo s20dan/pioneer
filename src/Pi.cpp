@@ -60,6 +60,8 @@
 #include "SoundMusic.h"
 #include "Background.h"
 
+#include "profiler/Profiler.h"
+
 float Pi::gameTickAlpha;
 int Pi::timeAccelIdx = 1;
 int Pi::requestedTimeAccelIdx = 1;
@@ -1121,6 +1123,7 @@ void Pi::MainLoop()
 	memset(fps_readout, 0, sizeof(fps_readout));
 
 	while (isGameStarted) {
+		PROFILE_SCOPED_DESC("MainLoop::while (isGameStarted)")
 		double newTime = 0.001 * double(SDL_GetTicks());
 		Pi::frameTime = newTime - currentTime;
 		if (Pi::frameTime > 0.25) Pi::frameTime = 0.25;

@@ -1,6 +1,8 @@
 #include "GeoSphereStyle.h"
 #include "perlin.h"
 
+#include "profiler/Profiler.h"
+
 
 /**
  * All these stinking octavenoise functions return range [0,1] if roughness = 0.5
@@ -34,6 +36,7 @@ static double cliff_function(const fracdef_t &def, const vector3d &p);
 
 int GeoSphereStyle::GetRawHeightMapVal(int x, int y)
 {
+	PROFILE_SCOPED()
 	return m_heightMap[Clamp(y, 0, m_heightMapSizeY-1)*m_heightMapSizeX + Clamp(x, 0, m_heightMapSizeX-1)];
 }
 
@@ -42,6 +45,7 @@ int GeoSphereStyle::GetRawHeightMapVal(int x, int y)
  */
 double GeoSphereStyle::GetHeightMapVal(const vector3d &pt)
 {     // This is all used for Earth and Earth alone
+	PROFILE_SCOPED()
 	double latitude = -asin(pt.y);
 	if (pt.y < -1.0) latitude = -0.5*M_PI;
 	if (pt.y > 1.0) latitude = 0.5*M_PI;
@@ -130,6 +134,7 @@ double GeoSphereStyle::GetHeightMapVal(const vector3d &pt)
 
 static inline vector3d interpolate_color(double n, vector3d start, vector3d end)
 {
+	PROFILE_SCOPED()
 	n = Clamp(n, 0.0, 1.0);
 	return start*(1.0-n) + end*n;
 }
@@ -143,6 +148,7 @@ void GeoSphereStyle::PickAtmosphere(const SBody *sbody)
 	  These are our atmosphere colours, for terrestrial planets we use m_atmosOxidizing
 	  for some variation to atmosphere colours
 	 */
+	PROFILE_SCOPED()
 	switch (sbody->type) {
 		case SBody::TYPE_PLANET_GAS_GIANT:
 			m_atmosColor = Color(1.0f, 1.0f, 1.0f, 0.005f);
@@ -227,6 +233,7 @@ void GeoSphereStyle::PickAtmosphere(const SBody *sbody)
 
 void GeoSphereStyle::InitHeightMap(const SBody *body)
 {
+	PROFILE_SCOPED()
 	/* Height map? */
 	if (body->heightMapFilename) {
 		FILE *f;
@@ -246,6 +253,7 @@ void GeoSphereStyle::InitHeightMap(const SBody *body)
 
 GeoSphereStyle::GeoSphereStyle(const SBody *body)
 {
+	PROFILE_SCOPED()
 	MTRand rand;
 	rand.seed(body->seed);
 	m_seed = body->seed;
@@ -492,6 +500,7 @@ GeoSphereStyle::GeoSphereStyle(const SBody *body)
  */
 void GeoSphereStyle::SetFracDef(struct fracdef_t *def, double featureHeightMeters, double featureWidthMeters, MTRand &rand, double smallestOctaveMeters)
 {
+	PROFILE_SCOPED()
 	// feature 
 	def->amplitude = featureHeightMeters / (m_maxHeight * m_planetRadius);
 	def->frequency = m_planetRadius / featureWidthMeters;
@@ -503,6 +512,7 @@ void GeoSphereStyle::SetFracDef(struct fracdef_t *def, double featureHeightMeter
 // Fracdef is used to define the fractals width/area, height and detail
 void GeoSphereStyle::InitFractalType(MTRand &rand)
 {
+	PROFILE_SCOPED()
 	//Earth uses these fracdef settings
 	if (m_heightMap) {		
 		SetFracDef(&m_fracdef[0], m_maxHeightInMeters, 1e6, rand, 200);
@@ -883,6 +893,7 @@ void GeoSphereStyle::InitFractalType(MTRand &rand)
  */
 double GeoSphereStyle::GetHeight(const vector3d &p)
 {
+	PROFILE_SCOPED()
 	if (m_heightMap) return GetHeightMapVal(p) / m_planetRadius;
 
 	switch (m_terrainType) {
@@ -1784,6 +1795,7 @@ static inline double voronoiscam_octavenoise(int octaves, double roughness, doub
  */
 vector3d GeoSphereStyle::GetColor(const vector3d &p, double height, const vector3d &norm)
 {
+	PROFILE_SCOPED()
 	switch (m_colorType) {
 	case COLOR_NONE:
 		return vector3d(1.0);
