@@ -903,7 +903,9 @@ public:
 				_kids[3]->edgeFriend[3] = GetEdgeFriendForKid(3, 3);
 				_kids[0]->parent = _kids[1]->parent = _kids[2]->parent = _kids[3]->parent = this;
 				_kids[0]->geosphere = _kids[1]->geosphere = _kids[2]->geosphere = _kids[3]->geosphere = geosphere;
-				for (int i=0; i<4; i++) _kids[i]->GenerateMesh();
+#pragma omp parallel for
+				for (int i=0; i<4; i++)
+					_kids[i]->GenerateMesh();
 				PiVerify(SDL_mutexP(m_kidsLock)==0);
 				for (int i=0; i<4; i++) kids[i] = _kids[i];
 				for (int i=0; i<4; i++) edgeFriend[i]->NotifyEdgeFriendSplit(this);
@@ -1092,7 +1094,9 @@ void GeoSphere::BuildFirstPatches()
 			m_patches[i]->edgeFriend[j] = m_patches[geo_sphere_edge_friends[i][j]];
 		}
 	}
-	for (int i=0; i<6; i++) m_patches[i]->GenerateMesh();
+#pragma omp parallel for
+	for (int i=0; i<6; i++)
+		m_patches[i]->GenerateMesh();
 	for (int i=0; i<6; i++) m_patches[i]->GenerateEdgeNormalsAndColors();
 	for (int i=0; i<6; i++) m_patches[i]->UpdateVBOs();
 }

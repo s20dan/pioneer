@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="pioneer-msvc-9.0"
 	ProjectGUID="{70B3BAA3-AC1A-4872-9CA7-714A90FC4459}"
 	RootNamespace="pioneermsvc90"
@@ -136,6 +136,7 @@
 				BufferSecurityCheck="false"
 				EnableEnhancedInstructionSet="0"
 				FloatingPointModel="2"
+				OpenMP="true"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="pch.h"
 				ProgramDataBaseFileName="$(IntDir)\$(ProjectName).pdb"
