@@ -17,6 +17,9 @@ int GEOPATCH_EDGELEN = 15;
 static const int GEOPATCH_MAX_EDGELEN = 55;
 static double GEOPATCH_FRAC;
 
+//Number of terrain threads to use if more than one is detected
+int m_numThreads = 2;
+
 #define PRINT_VECTOR(_v) printf("%f,%f,%f\n", (_v).x, (_v).y, (_v).z);
 
 SHADER_CLASS_BEGIN(GeosphereShader)
@@ -903,7 +906,7 @@ public:
 				_kids[3]->edgeFriend[3] = GetEdgeFriendForKid(3, 3);
 				_kids[0]->parent = _kids[1]->parent = _kids[2]->parent = _kids[3]->parent = this;
 				_kids[0]->geosphere = _kids[1]->geosphere = _kids[2]->geosphere = _kids[3]->geosphere = geosphere;
-#pragma omp parallel for
+#pragma omp parallel for num_threads(m_numThreads)
 				for (int i=0; i<4; i++)
 					_kids[i]->GenerateMesh();
 				PiVerify(SDL_mutexP(m_kidsLock)==0);
@@ -1094,7 +1097,7 @@ void GeoSphere::BuildFirstPatches()
 			m_patches[i]->edgeFriend[j] = m_patches[geo_sphere_edge_friends[i][j]];
 		}
 	}
-#pragma omp parallel for
+#pragma omp parallel for num_threads(m_numThreads)
 	for (int i=0; i<6; i++)
 		m_patches[i]->GenerateMesh();
 	for (int i=0; i<6; i++) m_patches[i]->GenerateEdgeNormalsAndColors();
