@@ -1205,7 +1205,7 @@ void Pi::MainLoop()
 					double dist = toBody.Length();
 					double rad = (*i)->GetBoundingRadius();
 
-					if (dist < 1000.0) {
+					/*if (dist < 1000.0) {
 						timeAccel = std::min(timeAccel, 1);
 					} else if (dist < std::min(rad+0.0001*AU, rad*1.1)) {
 						timeAccel = std::min(timeAccel, 2);
@@ -1214,6 +1214,15 @@ void Pi::MainLoop()
 					} else if (dist < std::min(rad+0.01*AU,rad*10.0)) {
 						timeAccel = std::min(timeAccel, 4);
 					} else if (dist < std::min(rad+0.1*AU, rad*1000.0)) {
+						timeAccel = std::min(timeAccel, 5);
+					}*/
+					if (dist < 1000.0) {
+						timeAccel = std::min(timeAccel, 2);
+					} else if (dist < std::min(rad+0.0001*AU, rad*1.1)) {
+						timeAccel = std::min(timeAccel, 3);
+					} else if (dist < std::min(rad+0.001*AU,rad*5.0)) {
+						timeAccel = std::min(timeAccel, 4);
+					} else if (dist < std::min(rad+0.01*AU, rad*10.0)) {
 						timeAccel = std::min(timeAccel, 5);
 					}
 				}
