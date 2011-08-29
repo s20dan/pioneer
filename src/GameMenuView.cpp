@@ -355,6 +355,10 @@ static const char *planet_detail_desc[5] = {
 	"Low", "Medium", "High", "Very high", "Very very high"
 };
 
+static const char *planet_textures_desc[2] = {
+	"Off", "On"
+};
+
 GameMenuView::GameMenuView(): View()
 {
 	m_subview = 0;
@@ -488,6 +492,21 @@ GameMenuView::GameMenuView(): View()
 		vbox->PackEnd(hbox);
 	}
 	// just a spacer
+	vbox->PackEnd(new Gui::Fixed(10,20));
+	
+	vbox->PackEnd((new Gui::Label("Planet textures (restart req.) :"))->Color(1.0f,1.0f,0.0f));
+	m_planetTextureGroup = new Gui::RadioGroup();
+
+	for (int i=0; i<2; i++) {
+		Gui::RadioButton *rb = new Gui::RadioButton(m_planetTextureGroup);
+		rb->onSelect.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangePlanetTextures), i));
+		Gui::HBox *hbox = new Gui::HBox();
+		hbox->SetSpacing(5.0f);
+		hbox->PackEnd(rb);
+		hbox->PackEnd(new Gui::Label(planet_textures_desc[i]));
+		vbox->PackEnd(hbox);
+	}
+
 	vbox->PackEnd(new Gui::Fixed(10,20));
 	
 	vbox->PackEnd((new Gui::Label("City detail level:"))->Color(1.0f,1.0f,0.0f));
@@ -637,6 +656,15 @@ void GameMenuView::OnChangePlanetDetail(int level)
 	Pi::config.Save();
 }
 
+void GameMenuView::OnChangePlanetTextures(int level)
+{
+	if (level == Pi::detail.textures) return;
+	m_changedDetailLevel = true;
+	Pi::detail.textures = level;
+	Pi::config.SetInt("Textures", level);
+	Pi::config.Save();
+}
+
 void GameMenuView::OnChangeCityDetail(int level)
 {
 	if (level == Pi::detail.cities) return;
@@ -725,6 +753,7 @@ void GameMenuView::OnSwitchTo() {
 		Pi::SetView(Pi::worldView);
 	} else {
 		m_planetDetailGroup->SetSelected(Pi::detail.planets);
+		m_planetTextureGroup->SetSelected(Pi::detail.textures);
 		m_cityDetailGroup->SetSelected(Pi::detail.cities);
 		m_toggleShaders->SetPressed(Render::AreShadersEnabled());
 		m_toggleHDR->SetPressed(Render::IsHDREnabled());

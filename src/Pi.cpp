@@ -262,6 +262,7 @@ static void LuaInitGame() {
 void Pi::Init()
 {
 	Pi::detail.planets = config.Int("DetailPlanets");
+	Pi::detail.textures = config.Int("Textures");
 	Pi::detail.cities = config.Int("DetailCities");
 
 	int width = config.Int("ScrWidth");
