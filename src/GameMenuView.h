@@ -66,6 +66,7 @@ private:
 	void OnChangeVolume();
 	void OnChangePlanetDetail(int level);
 	void OnChangePlanetTextures(int level);
+	void OnChangeFractalMultiple(int level);
 	void OnChangeCityDetail(int level);
 	void OnChangeVideoResolution(int res);
 	void OnToggleShaders(Gui::ToggleButton *b, bool state);
@@ -80,6 +81,7 @@ private:
 	VolumeControl *m_musicVolume;
 	Gui::RadioGroup *m_planetDetailGroup;
 	Gui::RadioGroup *m_planetTextureGroup;
+	Gui::RadioGroup *m_planetFractalGroup;
 	Gui::RadioGroup *m_cityDetailGroup;
 	Gui::ToggleButton *m_toggleShaders;
 	Gui::ToggleButton *m_toggleHDR;

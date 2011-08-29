@@ -263,6 +263,7 @@ void Pi::Init()
 {
 	Pi::detail.planets = config.Int("DetailPlanets");
 	Pi::detail.textures = config.Int("Textures");
+	Pi::detail.fracmult = config.Int("FractalMultiple");
 	Pi::detail.cities = config.Int("DetailCities");
 
 	int width = config.Int("ScrWidth");
