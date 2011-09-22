@@ -1,6 +1,6 @@
 define_model('eagle_gun', {
 	info = {
-		lod_pixels = {5,10,100,0},
+		lod_pixels = {1,5,20,50},
 		bounding_radius = 11,
 		materials = {'d_red', 'black', 'chrome'},
 	},
@@ -26,7 +26,7 @@ define_model('eagle_gun', {
 
 define_model('eagle_lrf_v0', {
 	info = {
-		lod_pixels = {5,10,100,0},
+		lod_pixels = {1,5,20,50},
 		bounding_radius = 51,
 		materials = {'top'},
 	},
@@ -44,7 +44,7 @@ define_model('eagle_lrf_v0', {
 
 define_model('eagle_lrf_v1', {
 	info = {
-		lod_pixels = {5,10,100,0},
+		lod_pixels = {1,5,20,50},
 		bounding_radius = 51,
 		materials = {'top'},
 	},
@@ -62,7 +62,7 @@ define_model('eagle_lrf_v1', {
 
 define_model('eagle_lrf_body', {
 	info = {
-		lod_pixels = {5,10,100,0},
+		lod_pixels = {1,5,20,50},
 		bounding_radius = 51,
 		materials = {'top', 'bot', 'black', 'steel'},
 	},
@@ -202,7 +202,7 @@ define_model('eagle_lrf_body', {
 
 define_model('eagle_mk2_body', {
 	info = {
-		lod_pixels = {5,10,100,0},
+		lod_pixels = {1,5,20,50},
 		bounding_radius = 51,
 		materials = {'top', 'bot', 'black', 'steel'},
 	},
@@ -334,7 +334,7 @@ define_model('eagle_mk2_body', {
 
 define_model('eagle_mk3_body', {
 	info = {
-		lod_pixels = {5,10,100,0},
+		lod_pixels = {1,5,20,50},
 		bounding_radius = 51,
 		materials = {'top', 'black', 'steel'},
 	},
@@ -465,7 +465,7 @@ define_model('eagle_mk3_body', {
 
 define_model('emk4_extras_v0', {
 	info = {
-		lod_pixels = {5,10,100,0},
+		lod_pixels = {1,5,20,50},
 		bounding_radius = 46,
 		materials = {'top'},
 	},
@@ -502,7 +502,7 @@ define_model('emk4_extras_v0', {
 
 define_model('emk4_extras_v1', {
 	info = {
-		lod_pixels = {5,10,100,0},
+		lod_pixels = {1,5,20,50},
 		bounding_radius = 46,
 		materials = {'top'},
 	},
@@ -539,7 +539,7 @@ define_model('emk4_extras_v1', {
 
 define_model('eagle_mk4_body', {
 	info = {
-		lod_pixels = {5,10,100,0},
+		lod_pixels = {1,5,20,50},
 		bounding_radius = 57,
 		materials = {'top', 'bot', 'tank', 'black', 'steel'},
 	},
@@ -726,7 +726,7 @@ define_model('eagle_mk4_body', {
 
 define_model('eagle_cyl', {
 	info = {
-		lod_pixels = { 10, 30 ,100, 0 },
+		lod_pixels = {1,5,20,50},
 		bounding_radius = 14,
 		materials = {'chrome'},
 	},
@@ -749,7 +749,7 @@ define_model('eagle_cyl', {
 
 define_model('eagle_wheels', {
 	info = {
-		lod_pixels = {10,30,100,0},
+		lod_pixels = {1,5,20,50},
 		bounding_radius = 12,
 		materials = {'metal', 'wheels'},
 	},
@@ -775,7 +775,7 @@ define_model('eagle_wheels', {
 
 define_model('eagle_all', {
 	info = {
-		lod_pixels = {.1,10,100,0},
+		lod_pixels = {1,5,20,50},
 		bounding_radius = 52,
 		materials = {'d_grey', 'steel', 'chrome', 'e_glow', 'cutout', 'win', 'd_red', 'text', 'null', 'grey', 'desk', 'black'},
 	},
@@ -1043,7 +1043,7 @@ define_model('eagle_lrf', {
 	info = {
 		--			scale = 0.261, -- FE2 to Pioneer vector spacing scale for the eagle, each ship is different!
 		scale = 0.45,
-		lod_pixels = {.1,10,50,0},
+		lod_pixels = {1,5,20,50},
 		bounding_radius = 30,
 		materials={'steel', 'cutout', 'win'},
 		tags = {'ship'},
@@ -1192,7 +1192,7 @@ define_model('eagle_lrf', {
 define_model('eagle_mk2', {
 	info = {
 		scale = 0.45,
-		lod_pixels = {.1,10,50,0},
+		lod_pixels = {1,5,20,50},
 		bounding_radius = 30,
 		materials={'chrome', 'cutout', 'win'},
 		tags = {'ship'},
@@ -1324,7 +1324,7 @@ define_model('eagle_mk2', {
 define_model('eagle_mk3', {
 	info = {
 		scale = 0.45,
-		lod_pixels = {.1,10,50,0},
+		lod_pixels = {1,5,20,50},
 		bounding_radius = 30,
 		materials={'chrome', 'e_glow', 'win', 'cutout'},
 		tags = {'ship'},
@@ -1466,7 +1466,7 @@ define_model('eagle_mk3', {
 define_model('eagle_mk4', {
 	info = {
 		scale = 0.45,
-		lod_pixels = {.1,10,50,0},
+		lod_pixels = {1,5,20,50},
 		bounding_radius = 30,
 		materials={'chrome', 'cv2', 'e_glow', 'win', 'cutout'},
 		tags = {'ship'},
