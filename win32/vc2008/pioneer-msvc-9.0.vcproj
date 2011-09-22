@@ -453,6 +453,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaConsole.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaConstants.cpp"
 				>
 			</File>
@@ -1483,11 +1487,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\render\Render.h"
+				RelativePath="..\..\src\Render.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Render.h"
+				RelativePath="..\..\src\render\Render.h"
 				>
 			</File>
 			<File
