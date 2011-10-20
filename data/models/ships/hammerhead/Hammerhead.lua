@@ -1,6 +1,6 @@
 define_model('hhbox', {
 	info = {
-		bounding_radius = 5,
+		clipping_radius = 5,
 		materials={'steel2', 'rand2'},
 	},
 
@@ -23,7 +23,7 @@ define_model('hhbox', {
 
 define_model('hhwheel', {
 	info = {
-		bounding_radius = 5,
+		clipping_radius = 5,
 		materials={'black1'},
 	},
 
@@ -40,7 +40,7 @@ define_model('hhwheel', {
 
 define_model('hhgear', {
 	info = {
-		bounding_radius = 5,
+		clipping_radius = 5,
 		materials={'black2'},
 	},
 
@@ -64,7 +64,7 @@ define_model('hhgear', {
 
 define_model('hhrrd', {
 	info = {
-		bounding_radius = 5,
+		clipping_radius = 5,
 		materials={'steel2'},
 	},
 
@@ -81,7 +81,7 @@ define_model('hhrrd', {
 
 define_model('hhrld', {
 	info = {
-		bounding_radius = 5,
+		clipping_radius = 5,
 		materials={'steel2'},
 	},
 
@@ -98,7 +98,7 @@ define_model('hhrld', {
 
 define_model('hhlrd', {
 	info = {
-		bounding_radius = 5,
+		clipping_radius = 5,
 		materials={'steel2'},
 	},
 
@@ -115,7 +115,7 @@ define_model('hhlrd', {
 
 define_model('hhlld', {
 	info = {
-		bounding_radius = 5,
+		clipping_radius = 5,
 		materials={'steel2'},
 	},
 
@@ -132,7 +132,7 @@ define_model('hhlld', {
 
 define_model('hhmaingear', {
 	info = {
-		bounding_radius = 5,
+		clipping_radius = 5,
 		materials={'steel2', 'black2', 'rand1', 'rand2'},
 	},
 
@@ -170,8 +170,8 @@ define_model('hhmaingear', {
 
 define_model('hhbridge', {
 	info = {
-		lod_pixels={.1,50,150,0},
-		bounding_radius = 60,
+		lod_distance={80,20,3,1},
+		clipping_radius = 60,
 		materials={'steel', 'rand1', 'rand2', 'glass', 'inside'},
 	},
 
@@ -268,7 +268,7 @@ define_model('hhbridge', {
 
 define_model('hhfgun', {
 	info = {
-		bounding_radius = 5,
+		clipping_radius = 5,
 	},
 
 	static = function(lod)
@@ -281,7 +281,7 @@ define_model('hhfgun', {
 
 define_model('hhrgun', {
 	info = {
-		bounding_radius = 15,
+		clipping_radius = 15,
 	},
 
 	static = function(lod)
@@ -295,8 +295,8 @@ define_model('hhrgun', {
 define_model('hh', {
 	info = {
 		scale = 0.65,
-		lod_pixels={.1,50,150,0},
-		bounding_radius = 77,
+		lod_distance={80,20,3,1},
+		clipping_radius = 77,
 		materials={'steel', 'darksteel', 'medsteel', 'glow', 'rand1', 'rand2', 'glass', 'inside','text1', 'text2'},
 		tags = { 'ship' },
 		ship_defs = {
