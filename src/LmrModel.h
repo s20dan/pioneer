@@ -72,7 +72,7 @@ private:
 	std::map<std::string, int> m_materialLookup;
 	std::vector<LmrMaterial> m_materials;
 	std::vector<LmrLight> m_lights;
-	float m_lodPixelSize[LMR_MAX_LOD];
+	float m_lodDistance[LMR_MAX_LOD];
 	int m_numLods;
 	LmrGeomBuffer *m_staticGeometry[LMR_MAX_LOD];
 	LmrGeomBuffer *m_dynamicGeometry[LMR_MAX_LOD];

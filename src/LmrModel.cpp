@@ -905,19 +905,19 @@ LmrModel::LmrModel(const char *model_name)
 	if (lua_istable(sLua, -1)) {
 		m_numLods = 0;
 
-		lua_getfield(sLua, -1, "bounding_radius");
+		lua_getfield(sLua, -1, "clipping_radius");
 		if (lua_isnumber(sLua, -1)) m_drawClipRadius = luaL_checknumber(sLua, -1);
-		else luaL_error(sLua, "model %s_info missing bounding_radius=", model_name);
+		else luaL_error(sLua, "model %s_info missing clipping_radius=", model_name);
 		lua_pop(sLua, 1);
 
-		lua_getfield(sLua, -1, "lod_pixels");
+		lua_getfield(sLua, -1, "lod_distance");
 		if (lua_istable(sLua, -1)) {
 			for(int i=1;; i++) {
 				lua_pushinteger(sLua, i);
 				lua_gettable(sLua, -2);
 				bool is_num = lua_isnumber(sLua, -1) != 0;
 				if (is_num) {
-					m_lodPixelSize[i-1] = luaL_checknumber(sLua, -1);
+					m_lodDistance[i-1] = luaL_checknumber(sLua, -1);
 					m_numLods++;
 				}
 				lua_pop(sLua, 1);
@@ -928,7 +928,7 @@ LmrModel::LmrModel(const char *model_name)
 			}
 		} else {
 			m_numLods = 1;
-			m_lodPixelSize[0] = 0;
+			m_lodDistance[0] = 0;
 		}
 		lua_pop(sLua, 1);
 
@@ -1162,12 +1162,12 @@ void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, cons
 	glEnable(GL_LIGHTING);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 
-	float pixrad = 0.5f * s_scrWidth * rstate->combinedScale * m_drawClipRadius / cameraPos.Length();
+	float lodDistance = cameraPos.Length() / m_drawClipRadius; // * rstate->combinedScale ) //might be needed
 	//printf("%s: %fpx\n", m_name.c_str(), pixrad);
 
 	int lod = m_numLods-1;
 	for (int i=lod-1; i>=0; i--) {
-		if (pixrad < m_lodPixelSize[i]) lod = i;
+		if (lodDistance > m_lodDistance[i]) lod = i;
 	}
 	//printf("%s: lod %d\n", m_name.c_str(), lod);
 
