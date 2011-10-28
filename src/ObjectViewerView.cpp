@@ -58,6 +58,10 @@ ObjectViewerView::ObjectViewerView(): View()
 	m_sbodyMetallicity = new Gui::TextEntry();
 	vbox->PackEnd(m_sbodyMetallicity);
 
+	vbox->PackEnd(new Gui::Label("Ore Abundance (0-1):"));
+	m_sbodyOreAbundance = new Gui::TextEntry();
+	vbox->PackEnd(m_sbodyOreAbundance);
+
 	Gui::LabelButton *b = new Gui::LabelButton(new Gui::Label("Change planet terrain type"));
 	b->onClick.connect(sigc::mem_fun(this, &ObjectViewerView::OnChangeGeoSphereStyle));
 	vbox->PackEnd(b);
@@ -161,6 +165,7 @@ void ObjectViewerView::OnChangeGeoSphereStyle()
 	sbody.mass = mass;
 	sbody.averageTemp = 273;
 	sbody.m_metallicity = metallicity;
+	sbody.m_oreAbundance = oreAbundance;
 	sbody.m_volatileGas = volatileGas;
 	sbody.m_volatileLiquid = volatileLiquid;
 	sbody.m_volatileIces = volatileIces;

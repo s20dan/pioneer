@@ -32,6 +32,7 @@ public:
 
 	/* composition */
 	fixed metallicity; // (crust) 0.0 = light (Al, SiO2, etc), 1.0 = heavy (Fe, heavy metals)
+	fixed oreAbundance;
 	fixed volatileGas; // 1.0 = earth atmosphere density
 	fixed volatileLiquid; // 1.0 = 100% ocean cover (earth = 70%)
 	fixed volatileIces; // 1.0 = 100% ice cover (earth = 3%)
@@ -63,6 +64,7 @@ public:
     }
 
 	inline CustomSBody* l_metallicity(pi_fixed& f) { metallicity = f; return this; }
+	inline CustomSBody* l_ore_abundance(pi_fixed& f) { oreAbundance = f; return this; }
 	inline CustomSBody* l_volcanicity(pi_fixed& f) { volcanicity = f; return this; }
 	inline CustomSBody* l_atmos_density(pi_fixed& f) { volatileGas = f; return this; }
 	inline CustomSBody* l_atmos_oxidizing(pi_fixed& f) { atmosOxidizing = f; return this; }
@@ -95,6 +97,7 @@ OOLUA_CLASS_NO_BASES(CustomSBody)
 	OOLUA_MEM_FUNC_1_RENAME(axial_tilt, CustomSBody*, l_axial_tilt, pi_fixed&)
 	OOLUA_MEM_FUNC_1_RENAME(height_map, CustomSBody*, l_height_map, std::string)
 	OOLUA_MEM_FUNC_1_RENAME(metallicity, CustomSBody*, l_metallicity, pi_fixed&)
+	OOLUA_MEM_FUNC_1_RENAME(ore_abundance, CustomSBody*, l_ore_abundance, pi_fixed&)
 	OOLUA_MEM_FUNC_1_RENAME(volcanicity, CustomSBody*, l_volcanicity, pi_fixed&)
 	OOLUA_MEM_FUNC_1_RENAME(atmos_density, CustomSBody*, l_atmos_density, pi_fixed&)
 	OOLUA_MEM_FUNC_1_RENAME(atmos_oxidizing, CustomSBody*, l_atmos_oxidizing, pi_fixed&)
