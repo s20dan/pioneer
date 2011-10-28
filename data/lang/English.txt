@@ -364,6 +364,14 @@ AUTOPILOT
     Autopilot
 AUTOPILOT_DESCRIPTION
     An on-board flight computer.
+MINING_MACHINE
+	Mining machine
+MINING_MACHINE_DESCRIPTION
+	Woot! Mine your heart out
+MINING_MESSAGE
+	You activate the generic mining device... ;)
+MINING_WARNING
+	You must be landed to activate the generic mining device.....
 RADAR_MAPPER
     Radar Mapper
 RADAR_MAPPER_DESCRIPTION
@@ -888,6 +896,20 @@ AND_INDIGENOUS_PLANT_LIFE
      " and indigenous plant life."
 AND_INDIGENOUS_MICROBIAL_LIFE
      " and indigenous microbial life."
+CRUST_COMP
+	Crust composition
+CRUST_DESC1
+	Various very heavy metals
+CRUST_DESC2
+	Iron and various heavy metals
+CRUST_DESC3
+	Mostly Iron and metamorphic rock
+CRUST_DESC4
+	Some Iron and igneous rock
+CRUST_DESC5
+	Mostly sedimentary and igneous rock
+CRUST_DESC6
+	Silicates such as Aluminium silicate
 ORBITAL_STARPORT
     Orbital starport
 STARPORT

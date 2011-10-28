@@ -1216,7 +1216,9 @@ try_that_again_guvnah:
 	}
 
 	m_metallicity = starMetallicities[rootBody->type];
-	m_oreAbundance = rand.Int32(0,2)*m_metallicity;  //temp - CHANGE
+	m_oreAbundance = rand.Int32(1,7)*m_metallicity;
+	m_oreAbundance += rand.Int32(0,4);//temp - CHANGE
+	printf("Abundance Star : %f \n", m_oreAbundance.ToFloat());
 
 	for (int i=0; i<m_numStars; i++) MakePlanetsAround(star[i], rand);
 
@@ -1517,7 +1519,8 @@ void SBody::PickPlanetType(StarSystem *system, MTRand &rand)
 	//m_metallicity = system->m_metallicity * rand.Fixed();
 	m_metallicity = system->m_metallicity * rand.Int32(1,20) * rand.Fixed();
 	m_metallicity = m_metallicity/10;
-	m_oreAbundance = system->m_oreAbundance * rand.Fixed();
+	m_oreAbundance = system->m_oreAbundance * rand.Int32(1,50) * rand.Fixed();
+	m_oreAbundance = m_oreAbundance/10;
 	printf("%s\n", system->m_name.c_str());
 	printf("Metallicity: %.1f\n", m_metallicity.ToDouble());
 	printf("Abundance: %.1f\n", m_oreAbundance.ToDouble());

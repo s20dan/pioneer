@@ -58,6 +58,7 @@ private:
 	void BuildCommsNavOptions();
 
 	void OnClickHyperspace();
+	void PlayerShipMining();
 	void OnChangeWheelsState(Gui::MultiStateImageButton *b);
 	void OnChangeLabelsState(Gui::MultiStateImageButton *b);
 	void OnChangeFlightState(Gui::MultiStateImageButton *b);

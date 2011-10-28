@@ -134,6 +134,7 @@ void ObjectViewerView::Update()
 			m_sbodyLife->SetText(stringf("%0{f.3}", sbody->m_life.ToFloat()));
 			m_sbodyVolcanicity->SetText(stringf("%0{f.3}", sbody->m_volcanicity.ToFloat()));
 			m_sbodyMetallicity->SetText(stringf("%0{f.3}", sbody->m_metallicity.ToFloat()));
+			m_sbodyOreAbundance->SetText(stringf("%0{f.3}", sbody->m_oreAbundance.ToFloat()));
 			m_sbodySeed->SetText(stringf("%0{u}", sbody->seed));
 			m_sbodyMass->SetText(stringf("%0{f}", sbody->mass.ToFloat()));
 			m_sbodyRadius->SetText(stringf("%0{f}", sbody->radius.ToFloat()));
@@ -153,6 +154,7 @@ void ObjectViewerView::OnChangeGeoSphereStyle()
 	const fixed life = fixed(65536.0*atof(m_sbodyLife->GetText().c_str()), 65536);
 	const fixed volcanicity = fixed(65536.0*atof(m_sbodyVolcanicity->GetText().c_str()), 65536);
 	const fixed metallicity = fixed(65536.0*atof(m_sbodyMetallicity->GetText().c_str()), 65536);
+	const fixed oreAbundance = fixed(65536.0*atof(m_sbodyOreAbundance->GetText().c_str()), 65536);
 	const fixed mass = fixed(65536.0*atof(m_sbodyMass->GetText().c_str()), 65536);
 	const fixed radius = fixed(65536.0*atof(m_sbodyRadius->GetText().c_str()), 65536);
 

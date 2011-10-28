@@ -283,6 +283,44 @@ void WorldView::OnClickHyperspace()
 	}
 }
 
+void WorldView::PlayerShipMining()
+{
+	if (Pi::player->GetFlightState() == Ship::LANDED)
+	{
+		SBody *sbody = Pi::player->GetFrame()->GetSBodyFor();
+		int n = sbody->m_oreAbundance.ToInt32() * 5.0;
+
+		Pi::cpan->MsgLog()->Message("", Lang::MINING_MESSAGE);
+			Equip::Type t;
+			std::string td, tn;
+			if (20*Pi::rng.Fixed() < sbody->m_metallicity) {
+			t = Equip::PRECIOUS_METALS;
+			td = Lang::PRECIOUS_METALS;
+		} else if (8*Pi::rng.Fixed() < sbody->m_metallicity) {
+			t = Equip::METAL_ALLOYS;
+			td = Lang::METAL_ALLOYS;
+		} else if (Pi::rng.Fixed() < sbody->m_metallicity) {
+			t = Equip::METAL_ORE;
+			td = Lang::METAL_ORE;
+		} else if (Pi::rng.Fixed() < fixed(1,2)) {
+			t = Equip::WATER;
+			td = Lang::WATER;
+		} else {
+			t = Equip::RUBBISH;
+			td = Lang::RUBBISH;
+		}
+		tn = n;
+		printf("Ore Abundance : %i \n", n);
+		Pi::player->m_equipment.Add(t, n);
+		Pi::cpan->MsgLog()->Message("", tn);
+		//Pi::cpan->MsgLog()->Message("", td);
+	} else {
+		Pi::cpan->MsgLog()->Message("", Lang::MINING_WARNING);
+	}
+
+	
+}
+
 // This is the background starfield
 void WorldView::DrawBgStars() 
 {
@@ -1056,6 +1094,13 @@ void WorldView::UpdateCommsOptions()
 				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 5.0));
 				ypos += 32;
 			}
+		}
+		if (Pi::player->m_equipment.Get(Equip::SLOT_MINING) == Equip::MINING_MACHINE) {
+			if (navtarget->IsType(Object::PLANET)) {
+					button = AddCommsOption(stringf(Lang::MINING_MACHINE, formatarg("target", navtarget->GetLabel())), ypos, optnum++);
+					button->onClick.connect(sigc::mem_fun(this, &WorldView::PlayerShipMining));
+					ypos += 32;
+				}
 		}
 
 		const Equip::Type t = Pi::player->m_equipment.Get(Equip::SLOT_HYPERCLOUD);

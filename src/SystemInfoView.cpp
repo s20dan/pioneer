@@ -73,19 +73,19 @@ void SystemInfoView::OnBodyViewed(SBody *b)
 		double metallicity = b->m_metallicity.ToDouble();
 		if (b->type == SBody::TYPE_PLANET_TERRESTRIAL) {
 			if (metallicity > 0.9) { 
-				data = stringf(64, "Various very heavy metals");
+				data = stringf(Lang::CRUST_DESC1);
 			} else if (metallicity > 0.8) {
-				data = stringf(64, "Iron and various heavy metals");
+				data = stringf(Lang::CRUST_DESC2);
 			} else if (metallicity > 0.6) {
-				data = stringf(64, "Mostly Iron and metamorphic rock");
+				data = stringf(Lang::CRUST_DESC3);
 			} else if (metallicity > 0.4) {
-				data = stringf(64, "Some Iron and igneous rock");
+				data = stringf(Lang::CRUST_DESC4);
 			} else if (metallicity > 0.2) {
-				data = stringf(64, "Mostly sedimentary and igneous rock");
+				data = stringf(Lang::CRUST_DESC5);
 			} else {
-				data = stringf(64, "Silicates such as Aluminium silicate");
+				data = stringf(Lang::CRUST_DESC6);
 			}
-			_add_label_and_value("Crust composition", data);
+			_add_label_and_value(Lang::CRUST_COMP, data);
 			printf("%s\n", b->name.c_str());
 			printf("Metallicity: %.1f\n", metallicity);
 		}

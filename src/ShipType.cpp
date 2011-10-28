@@ -102,6 +102,7 @@ static int _define_ship(lua_State *L, const char *model_name, std::vector<ShipTy
 	_get_int_attrib(L, "max_lasercooler", s.equipSlotCapacity[Equip::SLOT_LASERCOOLER], 1);
 	_get_int_attrib(L, "max_cargolifesupport", s.equipSlotCapacity[Equip::SLOT_CARGOLIFESUPPORT], 1);
 	_get_int_attrib(L, "max_autopilot", s.equipSlotCapacity[Equip::SLOT_AUTOPILOT], 1);
+	s.equipSlotCapacity[Equip::SLOT_MINING] = 1;
 
 	_get_int_attrib(L, "capacity", s.capacity, 0);
 	_get_int_attrib(L, "hull_mass", s.hullMass, 100);

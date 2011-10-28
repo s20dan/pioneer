@@ -187,6 +187,11 @@ const EquipType Equip::types[Equip::TYPE_MAX] = {
 	  Equip::SLOT_AUTOPILOT, -1, {},
 	  140000, 1, 1, 0, 2, 0
 	},{
+	  Lang::MINING_MACHINE,
+	  Lang::MINING_MACHINE_DESCRIPTION,
+	  Equip::SLOT_MINING, -1, {},
+	  140000, 1, 1, 0, 2, 0
+	},{
 	  Lang::RADAR_MAPPER,
 	  Lang::RADAR_MAPPER_DESCRIPTION,
 	  Equip::SLOT_RADARMAPPER, -1, {},
