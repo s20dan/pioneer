@@ -287,33 +287,126 @@ void WorldView::PlayerShipMining()
 {
 	if (Pi::player->GetFlightState() == Ship::LANDED)
 	{
-		SBody *sbody = Pi::player->GetFrame()->GetSBodyFor();
-		int n = sbody->m_oreAbundance.ToInt32() * 5.0;
+		SBody *sbody = Pi::player->GetFrame()->GetSBodyFor(); //get the nearest body to the player and use that
+		int n = sbody->m_oreAbundance.ToInt32(); //determines quantity mined
 
-		Pi::cpan->MsgLog()->Message("", Lang::MINING_MESSAGE);
-			Equip::Type t;
-			std::string td, tn;
-			if (20*Pi::rng.Fixed() < sbody->m_metallicity) {
-			t = Equip::PRECIOUS_METALS;
-			td = Lang::PRECIOUS_METALS;
-		} else if (8*Pi::rng.Fixed() < sbody->m_metallicity) {
-			t = Equip::METAL_ALLOYS;
-			td = Lang::METAL_ALLOYS;
-		} else if (Pi::rng.Fixed() < sbody->m_metallicity) {
-			t = Equip::METAL_ORE;
-			td = Lang::METAL_ORE;
-		} else if (Pi::rng.Fixed() < fixed(1,2)) {
-			t = Equip::WATER;
-			td = Lang::WATER;
+		Pi::cpan->MsgLog()->Message("", Lang::MINING_MESSAGE); //play this message when activated
+		Equip::Type t, t1, t2, t3; //ore type
+		std::string ts, td, td1, td2, td3; //type string, type description
+		double metallicity = sbody->m_metallicity.ToDouble(); //determines crust composition
+		double dice, dice1; //dice rolls
+
+		if (metallicity > 0.9) {
+			t1  = Equip::MILITARY_FUEL;
+			t2  = Equip::PRECIOUS_METALS;
+			t3  = Equip::RADIOACTIVES;
+			td1 = Lang::MILITARY_FUEL;
+			td2 = Lang::PRECIOUS_METALS;
+			td3 = Lang::RADIOACTIVES;
+		} else if (metallicity > 0.8) {
+			t1  = Equip::PRECIOUS_METALS;
+			t2  = Equip::METAL_ALLOYS;
+			t3  = Equip::RADIOACTIVES;
+			td1 = Lang::PRECIOUS_METALS;
+			td2 = Lang::METAL_ALLOYS;
+			td3 = Lang::RADIOACTIVES;
+		} else if (metallicity > 0.6) {
+			t1  = Equip::METAL_ALLOYS;
+			t2  = Equip::METAL_ORE;
+			t3  = Equip::CARBON_ORE;
+			td1 = Lang::METAL_ALLOYS;
+			td2 = Lang::METAL_ORE;
+			td3 = Lang::CARBON_ORE;
+		} else if (metallicity > 0.4) {
+			t1  = Equip::METAL_ORE;
+			t2  = Equip::METAL_ORE;
+			t3  = Equip::CARBON_ORE;
+			td1 = Lang::METAL_ORE;
+			td2 = Lang::METAL_ORE;
+			td3 = Lang::CARBON_ORE;
 		} else {
-			t = Equip::RUBBISH;
+			t1  = Equip::CARBON_ORE;
+			t2  = Equip::RUBBISH;
+			t3  = Equip::METAL_ORE;
+			td1 = Lang::CARBON_ORE;
+			td2 = Lang::RUBBISH;
+			td3 = Lang::METAL_ORE;
+		}
+		
+		// 4d64 rolls :)
+		printf("\nRoll for Ore type:\n");
+		dice1 =  Pi::rng.Int32(1,64);
+		dice  = dice1;		
+		printf("Roll1: %2.f, ", dice1);
+		
+		dice1 = Pi::rng.Int32(1,64);
+		dice += dice1;
+		printf("Roll2: %2.f, ", dice1);
+		
+		dice1 = Pi::rng.Int32(1,64);
+		dice += dice1;
+		printf("Roll3: %2.f, ", dice1);
+		
+		dice1 = Pi::rng.Int32(1,64);
+		dice += dice1;
+		printf("Roll4: %2.f |  Total: %2.f\n", dice1, dice);
+
+
+		if (dice > 200) {  //very good roll
+			t  = t1;
+			td = td1;
+		} else if (dice > 150) { //good roll
+			t  = t2;
+			td = td2;
+		} else if (dice > 130) { //average roll
+			t  = t3;
+			td = td3;
+		} else if (dice > 100) { //crappy roll
+			if (sbody->m_volatileLiquid > 0.1) {
+				t  = Equip::WATER;
+				td = Lang::WATER;
+			} else {
+				t  = Equip::RADIOACTIVES;
+				td = Lang::RADIOACTIVES;
+			}
+		} else { //roll 100 or less and get crap 
+			t  = Equip::RUBBISH;
 			td = Lang::RUBBISH;
 		}
-		tn = n;
-		printf("Ore Abundance : %i \n", n);
+		printf("Ore Abundance : %i\n", n);
+		n = Clamp(Pi::rng.Int32(0, n/5), 0, 5);
+		printf("Max amount can mine with successful roll : %i \n", n);
+		
+		printf("Roll 129 total to succeed in mining:\n");
+		dice1 =  Pi::rng.Int32(1,64);
+		dice  = dice1;
+		printf("Roll5: %2.f, ", dice1);
+		
+		dice1 = Pi::rng.Int32(1,64);
+		dice += dice1;
+		printf("Roll6: %2.f, ", dice1);
+		
+		dice1 = Pi::rng.Int32(1,64);
+		dice += dice1;
+		printf("Roll7: %2.f, ", dice1);
+		
+		dice1 = Pi::rng.Int32(1,64);
+		dice += dice1;
+		printf("Roll8: %2.f |  Total: %2.f\n\n", dice1, dice);
+
+
 		Pi::player->m_equipment.Add(t, n);
-		Pi::cpan->MsgLog()->Message("", tn);
-		//Pi::cpan->MsgLog()->Message("", td);
+		if (dice > 128){ //50% chance of success
+			if (n > 0) { //Only succeed if there is ore to be mined
+				ts = Lang::MINING_SUCCESS;
+				ts += stringf("  %0  %1.", n, td);
+			} else {
+				ts = Lang::MINING_FAILURE;//fail when there is no ore
+			}
+		} else {
+			ts = Lang::MINING_FAILURE; //fail if we don't roll 129 or greater
+		}
+		Pi::cpan->MsgLog()->Message("", ts);
 	} else {
 		Pi::cpan->MsgLog()->Message("", Lang::MINING_WARNING);
 	}
