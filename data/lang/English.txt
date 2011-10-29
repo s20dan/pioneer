@@ -371,11 +371,13 @@ MINING_MACHINE_DESCRIPTION
 MINING_MESSAGE
 	You activate the generic mining device... ;)
 MINING_WARNING
-	You must be landed to activate the generic mining device.....
+	You must be landed to activate the generic mining device...
 MINING_SUCCESS
-	Mined :
+	Mined 
 MINING_FAILURE
-	You fail to uncover any usable ore.
+	You fail to uncover any usable ore...
+MINING_WORTHLESS
+	It seems pointless to continue mining here...
 RADAR_MAPPER
     Radar Mapper
 RADAR_MAPPER_DESCRIPTION

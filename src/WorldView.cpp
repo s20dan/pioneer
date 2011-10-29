@@ -288,13 +288,13 @@ void WorldView::PlayerShipMining()
 	if (Pi::player->GetFlightState() == Ship::LANDED)
 	{
 		SBody *sbody = Pi::player->GetFrame()->GetSBodyFor(); //get the nearest body to the player and use that
-		int n = sbody->m_oreAbundance.ToInt32(); //determines quantity mined
-
-		Pi::cpan->MsgLog()->Message("", Lang::MINING_MESSAGE); //play this message when activated
+		int n = sbody->m_oreAbundance.ToInt32(), n1; //determines quantity mined
 		Equip::Type t, t1, t2, t3; //ore type
 		std::string ts, td, td1, td2, td3; //type string, type description
 		double metallicity = sbody->m_metallicity.ToDouble(); //determines crust composition
 		double dice, dice1; //dice rolls
+
+		Pi::cpan->MsgLog()->Message("", Lang::MINING_MESSAGE); //play this message when activated
 
 		if (metallicity > 0.9) {
 			t1  = Equip::MILITARY_FUEL;
@@ -374,8 +374,8 @@ void WorldView::PlayerShipMining()
 			td = Lang::RUBBISH;
 		}
 		printf("Ore Abundance : %i\n", n);
-		n = Clamp(Pi::rng.Int32(0, n/5), 0, 5);
-		printf("Max amount can mine with successful roll : %i \n", n);
+		n1 = Clamp(Pi::rng.Int32(0, n/5), 0, 5);
+		printf("Max amount can mine with successful roll : %i \n", n1);
 		
 		printf("Roll 129 total to succeed in mining:\n");
 		dice1 =  Pi::rng.Int32(1,64);
@@ -395,13 +395,17 @@ void WorldView::PlayerShipMining()
 		printf("Roll8: %2.f |  Total: %2.f\n\n", dice1, dice);
 
 
-		Pi::player->m_equipment.Add(t, n);
 		if (dice > 128){ //50% chance of success
-			if (n > 0) { //Only succeed if there is ore to be mined
+			if (n1 > 0) { //Only succeed if there is ore to be mined
 				ts = Lang::MINING_SUCCESS;
-				ts += stringf("  %0  %1.", n, td);
+				ts += stringf("  %0  %1.", n1, td);
+				Pi::player->m_equipment.Add(t, n1);
 			} else {
-				ts = Lang::MINING_FAILURE;//fail when there is no ore
+				if (n < 5) { //check ore abundance
+					ts = Lang::MINING_WORTHLESS;//warn player that mining here is pointless
+				} else {
+					ts = Lang::MINING_FAILURE;//fail when there is no ore
+				}
 			}
 		} else {
 			ts = Lang::MINING_FAILURE; //fail if we don't roll 129 or greater
