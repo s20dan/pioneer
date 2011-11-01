@@ -68,11 +68,22 @@ void Starfield::Draw()
 {
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
+	//GLint   locTimeStamp; 
+	float fTime = Clamp(fabs(5.0*noise(Pi::GetGameTime()/719.0)), 0.5, 10.0);
+	//printf("time: %f \n", fTime);
+
 
 	if (Render::AreShadersEnabled()) {
 		glError();
 		Render::State::UseProgram(m_shader);
+		GLint time = glGetUniformLocation(m_shader->GetProgram(), "time");
+		glUniform1fARB(time, fTime);
 		glError();
+		//glEnable(GL_BLEND);
+		glEnable(GL_POINT_SMOOTH);
+		glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
+		//glEnable(GL_POINT_SPRITE);
+		//glBlendFunc(GL_ONE, GL_ONE);
 		glEnable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
 	} else {
 		glDisable(GL_POINT_SMOOTH);

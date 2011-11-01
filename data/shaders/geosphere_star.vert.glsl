@@ -1,4 +1,4 @@
-
+//uniform float time;
 void main(void)
 {
 #ifdef ZHACK

@@ -29,8 +29,10 @@ SHADER_CLASS_BEGIN(GeosphereShader)
 	SHADER_UNIFORM_FLOAT(geosphereAtmosTopRad)
 	SHADER_UNIFORM_VEC3(geosphereCenter)
 	SHADER_UNIFORM_FLOAT(geosphereAtmosFogDensity)
+	SHADER_UNIFORM_FLOAT(time)
 SHADER_CLASS_END()
-
+//GLint time = glGetUniformLocation(s_geosphereStarShader->GetProgram(), "time");
+			//glUniform1fARB(time, fTime);
 static GeosphereShader *s_geosphereSurfaceShader[4], *s_geosphereSkyShader[4], *s_geosphereStarShader, *s_geosphereDimStarShader[4];
 
 #pragma pack(4)
@@ -1314,6 +1316,13 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 	glTranslated(-campos.x, -campos.y, -campos.z);
 	GetFrustum(planes);
 	const float atmosRadius = ATMOSPHERE_RADIUS;
+	float fTime = Pi::GetGameTime()/100;
+	//fTime -= 314700;
+	//fTime = fabs(fTime/1);
+	//fTime /= 10000;
+	//fTime = Clamp(fabs(noise(fTime/1000)), 0.1, 5.0);
+	printf("time: %f \n", fTime);
+	//s_geosphereStarShader->set_time(fTime);
 	
 	// no frustum test of entire geosphere, since Space::Render does this
 	// for each body using its GetBoundingRadius() value
@@ -1352,7 +1361,10 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 			(m_sbody->type == SBody::TYPE_STAR_M)){
 			GeosphereShader *shader = s_geosphereDimStarShader[Render::State::GetNumLights()-1];
 			Render::State::UseProgram(shader);
-		} else if (m_sbody->GetSuperType() == SBody::SUPERTYPE_STAR) Render::State::UseProgram(s_geosphereStarShader);
+		} else if (m_sbody->GetSuperType() == SBody::SUPERTYPE_STAR) {
+			Render::State::UseProgram(s_geosphereStarShader);
+			s_geosphereStarShader->set_time(fTime);
+		}
 		else {
 			GeosphereShader *shader = s_geosphereSurfaceShader[Render::State::GetNumLights()-1];
 			Render::State::UseProgram(shader);
