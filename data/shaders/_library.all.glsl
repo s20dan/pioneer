@@ -1,3 +1,10 @@
+#pragma optionNV(fastmath on)
+#pragma optionNV(fastprecision on)
+#pragma optionNV(ifcvt none)
+#pragma optionNV(inline all)
+#pragma optionNV(strict on)
+#pragma optionNV(unroll all)
+
 void DirectionalLight(in int i,
                        in vec3 normal,
                        inout vec4 ambient,
@@ -197,16 +204,28 @@ float snoise(vec4 v)
 
   }
   
-float octavenoise(in int octaves, in float roughness, in float lacunarity, in vec3 p,in float jizm)
+  float octavenoise(in int octaves, in float roughness, in float lacunarity, in vec3 p, in float jizm, in float time)
 {
 	float n = 0.0;
+	float n1 = 0.0;
 	float octaveAmplitude = 1.0/(1.0-pow(roughness,(float(octaves))));//roughness;
 	//float jizm = 1.0;
+	//jizm = 1.0;
 	for (int i = 0;i < octaves;i++){
-		n += octaveAmplitude * snoise(jizm*p);
+		n += octaveAmplitude * snoise(vec4(jizm*p.x, jizm*p.y, jizm*p.z, time));
+		//n += octaveAmplitude * snoise(vec4(p.x, p.y, p.z, jizm));
 		octaveAmplitude *= roughness;
 		jizm *= lacunarity;
 	}
-	return (n+0.0);
+	//ridged noise
+	n1 = 1.0 - abs(n);
+	n1 *= n1;
+	//billow noise
+	n1 *= (2.0 * abs(n) - 1.0)+1.0;
+	//voronoiscam noise
+	n1 *= sqrt(10.0 * abs(n));
+	return n1;
+	
 }
+
 
