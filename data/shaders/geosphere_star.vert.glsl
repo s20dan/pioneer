@@ -7,7 +7,7 @@ void main(void)
 #else
 	gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
 #endif
-  glpos = gl_Position;
+  glpos = gl_Vertex;
 	gl_FrontColor = gl_Color;
 	gl_TexCoord[0] = gl_ModelViewMatrix * gl_Vertex;
 	vec3 tnorm = gl_NormalMatrix * gl_Normal;

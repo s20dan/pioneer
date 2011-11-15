@@ -207,6 +207,22 @@ float snoise(vec4 v)
   float octavenoise(in int octaves, in float roughness, in float lacunarity, in vec3 p, in float jizm, in float time)
 {
 	float n = 0.0;
+	float octaveAmplitude = 1.0/(1.0-pow(roughness,(float(octaves))));//roughness;
+	//float jizm = 1.0;
+	//jizm = 1.0;
+	for (int i = 0;i < octaves;i++){
+		n += octaveAmplitude * snoise(vec4(jizm*p.x, jizm*p.y, jizm*p.z, time));
+		//n += octaveAmplitude * snoise(vec4(p.x, p.y, p.z, jizm));
+		octaveAmplitude *= roughness;
+		jizm *= lacunarity;
+	}
+	return (n+1.0)*0.5;
+	
+}
+ 
+  float combo_octavenoise(in int octaves, in float roughness, in float lacunarity, in vec3 p, in float jizm, in float time)
+{
+	float n = 0.0;
 	float n1 = 0.0;
 	float octaveAmplitude = 1.0/(1.0-pow(roughness,(float(octaves))));//roughness;
 	//float jizm = 1.0;
@@ -225,6 +241,42 @@ float snoise(vec4 v)
 	//voronoiscam noise
 	n1 *= sqrt(10.0 * abs(n));
 	return n1;
+	
+}
+
+  float ridged_octavenoise(in int octaves, in float roughness, in float lacunarity, in vec3 p, in float jizm, in float time)
+{
+	float n = 0.0;
+	float octaveAmplitude = 1.0/(1.0-pow(roughness,(float(octaves))));//roughness;
+	//float jizm = 1.0;
+	//jizm = 1.0;
+	for (int i = 0;i < octaves;i++){
+		n += octaveAmplitude * snoise(vec4(jizm*p.x, jizm*p.y, jizm*p.z, time));
+		//n += octaveAmplitude * snoise(vec4(p.x, p.y, p.z, jizm));
+		octaveAmplitude *= roughness;
+		jizm *= lacunarity;
+	}
+	//ridged noise
+	n = 1.0 - abs(n);
+	return(n*n);
+	
+}
+
+float billow_octavenoise(in int octaves, in float roughness, in float lacunarity, in vec3 p, in float jizm, in float time)
+{
+	float n = 0.0;
+	float octaveAmplitude = 1.0/(1.0-pow(roughness,(float(octaves))));//roughness;
+	//float jizm = 1.0;
+	//jizm = 1.0;
+	for (int i = 0;i < octaves;i++){
+		n += octaveAmplitude * snoise(vec4(jizm*p.x, jizm*p.y, jizm*p.z, time));
+		//n += octaveAmplitude * snoise(vec4(p.x, p.y, p.z, jizm));
+		octaveAmplitude *= roughness;
+		jizm *= lacunarity;
+	}
+	//ridged noise
+	n = (2.0 * abs(n) - 1.0)+1.0;
+	return(n);
 	
 }
 
