@@ -1316,7 +1316,7 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 	glTranslated(-campos.x, -campos.y, -campos.z);
 	GetFrustum(planes);
 	const float atmosRadius = ATMOSPHERE_RADIUS;
-	float fTime = Pi::GetGameTime()/1000;
+	float fTime = Pi::GetGameTime()/10000;
 	//fTime -= 314700;
 	//fTime = fabs(fTime/1);
 	//fTime /= 10000;
