@@ -211,7 +211,7 @@ float snoise(vec4 v)
 	//float jizm = 1.0;
 	//jizm = 1.0;
 	for (int i = 0;i < octaves;i++){
-		n += octaveAmplitude * snoise(vec4(jizm*p.x, jizm*p.y, jizm*p.z, time));
+		n += octaveAmplitude * snoise(vec4(jizm*p.x*time*0.75, jizm*p.y*time, jizm*p.z*time*1.33, time));
 		//n += octaveAmplitude * snoise(vec4(p.x, p.y, p.z, jizm));
 		octaveAmplitude *= roughness;
 		jizm *= lacunarity;
@@ -251,7 +251,7 @@ float snoise(vec4 v)
 	//float jizm = 1.0;
 	//jizm = 1.0;
 	for (int i = 0;i < octaves;i++){
-		n += octaveAmplitude * snoise(vec4(jizm*p.x, jizm*p.y, jizm*p.z, time));
+		n += octaveAmplitude * snoise(vec4(jizm*p.x*time, jizm*p.y*time, jizm*p.z*time, time));
 		//n += octaveAmplitude * snoise(vec4(p.x, p.y, p.z, jizm));
 		octaveAmplitude *= roughness;
 		jizm *= lacunarity;

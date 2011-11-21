@@ -1321,7 +1321,7 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 	//fTime = fabs(fTime/1);
 	//fTime /= 10000;
 	//fTime = Clamp(fabs(noise(fTime/1000)), 0.1, 5.0);
-	printf("time: %f \n", fTime);
+	//printf("time: %f \n", fTime);
 	//s_geosphereStarShader->set_time(fTime);
 	
 	// no frustum test of entire geosphere, since Space::Render does this
@@ -1364,6 +1364,8 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 		} else if (m_sbody->GetSuperType() == SBody::SUPERTYPE_STAR) {
 			Render::State::UseProgram(s_geosphereStarShader);
 			s_geosphereStarShader->set_time(fTime);
+			s_geosphereStarShader->set_geosphereCenter(center.x, center.y, center.z);
+			s_geosphereStarShader->set_geosphereScale(scale);
 		}
 		else {
 			GeosphereShader *shader = s_geosphereSurfaceShader[Render::State::GetNumLights()-1];
