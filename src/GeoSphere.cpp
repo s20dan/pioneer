@@ -1361,6 +1361,9 @@ void GeoSphere::Render(vector3d campos, const float radius, const float scale) {
 			(m_sbody->type == SBody::TYPE_STAR_M)){
 			GeosphereShader *shader = s_geosphereDimStarShader[Render::State::GetNumLights()-1];
 			Render::State::UseProgram(shader);
+			s_geosphereStarShader->set_time(fTime);
+			s_geosphereStarShader->set_geosphereCenter(center.x, center.y, center.z);
+			s_geosphereStarShader->set_geosphereScale(scale);
 		} else if (m_sbody->GetSuperType() == SBody::SUPERTYPE_STAR) {
 			Render::State::UseProgram(s_geosphereStarShader);
 			s_geosphereStarShader->set_time(fTime);

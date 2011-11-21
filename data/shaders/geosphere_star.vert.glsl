@@ -24,10 +24,10 @@ void main(void)
 	//float n1a = combo_octavenoise(1, 1.45, 2.0, glpos, feature_size*0.01, time*0.35);
 	float n1 = 1.0;
 	n1 -= billow_octavenoise(1, 0.95, 2.0, glpos, feature_size*0.01, time*0.25)*0.025;
-	n1 *= n1;
+	n1 *= n1 * n1 * 2.0;
 	gl_Color += n1 * col;
 	//vec3 tempcol = gl_Color + (clamp(n1, 0.02, 1.0)*col);
-	float n2 = abs(octavenoise(1, 0.95, 2.0, gl_Color, feature_size*1000.0, time*0.3)*0.08);
+	float n2 = abs(octavenoise(1, 0.95, 2.0, gl_Color, feature_size*1000.0, time)*0.08);
 	//n2 = clamp(n2, 0.0, 1.0);
 	//n3 += billow_octavenoise(3, 0.575, 2.0, gl_Color, feature_size*0.5, time*1.333)/4.0;
 	//n4 += combo_octavenoise(3, 0.7, 2.0, gl_Color, feature_size*5.675, time*3.0)/4.0;
