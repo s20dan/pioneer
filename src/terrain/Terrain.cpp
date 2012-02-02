@@ -8,6 +8,7 @@ Terrain *Terrain::InstanceTerrain(const SBody *body)
 	// special case for heightmaps
 	if (body->heightMapFilename) {
 		if (body->heightMapType == 1) return new TerrainGenerator<TerrainHeightMapped,TerrainColorEarthLike>(body);
+		else if (body->heightMapType == 3) return new TerrainGenerator<TerrainHeightMapped3,TerrainColorRock>(body);
 		else if (body->heightMapType == 4) return new TerrainGenerator<TerrainHeightMapped2,TerrainColorRock>(body);
 	}
 
@@ -292,6 +293,41 @@ Terrain::Terrain(const SBody *body) : m_body(body), m_rand(body->seed), m_height
 			fread_or_die(m_heightMap, sizeof(Sint16), m_heightMapSizeX * m_heightMapSizeY, f);
 			fclose(f);
 			
+		}else if (m_body->heightMapType == 3){
+			FILE *f;
+			f = fopen_or_die(m_body->heightMapFilename, "rb");
+			// read size!
+			Uint16 v;
+			fread_or_die(&v, 2, 1, f); m_heightMapSizeY = v;
+			fread_or_die(&v, 2, 1, f); m_heightMapSizeX = v; 
+			// read height scaling and min height which are doubles
+			double te; fread_or_die(&te, 8, 1, f); m_heightScaling = te;fread_or_die(&te, 8, 1, f); m_minh = te;
+			m_heightMapScaled = new Uint16[m_heightMapSizeX * m_heightMapSizeY];
+			// XXX TODO XXX what about bigendian archs...
+			fread_or_die(m_heightMapScaled, sizeof(Uint16), m_heightMapSizeX * m_heightMapSizeY, f);
+			fclose(f);
+
+			/*FILE *f;
+			f = fopen_or_die(body->heightMapFilename, "rb");
+			// read size!		  
+			Uint16 v;
+			fread(&v, 2, 1, f); m_heightMapSizeY = v;   
+			fread(&v, 2, 1, f); m_heightMapSizeX = v;   
+			// read height scaling factor and minimum height which are doubles
+			double temp; fread(&temp,8,1,f); m_heightScaling = temp; fread(&temp,8,1,f); m_minHeight = temp;
+			//m_roughMin
+			int c = fread(m_roughMin,8,3,f); /*m_custom = temp;*/ /*fread(m_roughnessScaling,8,3,f);
+			
+			//printf("x%iy%i,%f,%f,%f,%f%f,%f,",m_heightMapSizeX,m_heightMapSizeY,m_heightScaling,m_minHeight,m_roughMin[0],m_roughnessScaling[0],m_roughMin[1],m_roughnessScaling[1]);
+			
+			m_heightMap = new Sint16[4*(m_heightMapSizeX+3) * (m_heightMapSizeY+3)];
+			
+
+			// XXX TODO XXX what about bigendian archs...
+			// data is actually uint16s 
+			int count = fread((void *) m_heightMap, sizeof(Sint16),4*(m_heightMapSizeX+3) * (m_heightMapSizeY+3), f);				
+			fclose(f);	*/
+
 		}else if (m_body->heightMapType == 4){
 			FILE *f;
 			f = fopen_or_die(m_body->heightMapFilename, "rb");

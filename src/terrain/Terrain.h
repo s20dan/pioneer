@@ -143,6 +143,7 @@ class TerrainHeightHillsRidged;
 class TerrainHeightHillsRivers;
 class TerrainHeightMapped;
 class TerrainHeightMapped2;
+class TerrainHeightMapped3;
 class TerrainHeightMountainsCraters2;
 class TerrainHeightMountainsCraters;
 class TerrainHeightMountainsNormal;

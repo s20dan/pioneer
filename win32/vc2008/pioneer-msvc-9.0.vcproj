@@ -1034,6 +1034,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\terrain\TerrainHeightMapped3.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\terrain\TerrainHeightMountainsCraters.cpp"
 				>
 			</File>

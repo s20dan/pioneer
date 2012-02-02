@@ -948,6 +948,7 @@ void StarSystem::CustomGetKidsOf(SBody *parent, const std::list<CustomSBody> *ch
 		// associate heightmap types by body - add for mars etc.
 		if (csbody->heightMapFilename.length() > 0){ 
 			if (csbody->name.compare("Earth")==0) {kid->heightMapType = 1;}
+			else if (csbody->name.compare("Mars")==0) {kid->heightMapType = 3;} 
 			else if (csbody->name.compare("Moon")==0) {kid->heightMapType = 4;} 
 			kid->heightMapFilename = csbody->heightMapFilename.c_str(); 
 		}

@@ -114,6 +114,7 @@ local mars = CustomSBody:new('Mars', 'PLANET_TERRESTRIAL')
 	:rotation_period(f(1027,1000))
 	:axial_tilt(math.fixed.deg2rad(f(2519,100)))
 	-- XXX composition copied from earth until there's a way to indicate terraformed
+	:height_map('mars.hmap3')
 	:metallicity(f(4,5))
 	:volcanicity(f(2,10))
 	:atmos_density(f(3,5))
