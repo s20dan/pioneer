@@ -13,6 +13,7 @@ void main(void)
 
 	gl_FragColor = diff*gl_Color + gl_LightModel.ambient*gl_Color;
 	gl_FragColor *= gl_FrontMaterial.emission * gl_FrontMaterial.emission * 10.0;
+	gl_FragColor = clamp(gl_FragColor, 0.0, 32000.0);
 
 #ifdef ZHACK
 	SetFragDepth(gl_TexCoord[6].z);
