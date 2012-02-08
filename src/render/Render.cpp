@@ -302,12 +302,23 @@ static struct postprocessBuffers_t {
 		float avgLum[4];
 		glGetTexImage(GL_TEXTURE_2D, 7, GL_RGB, GL_FLOAT, avgLum);
 
+		//avgLum[0]= float((avgLum[0]-float(log(0.1))*(1.0-avgLum[1]))/avgLum[1]);
+
 		//printf("%f -> ", avgLum[0]);
-		avgLum[0] = std::max(float(exp(avgLum[0])), 0.03f);
+		avgLum[0] = Clamp(float(exp(avgLum[0])), 0.02f, 0.1f);
+
+		//avgLum[1] is the fraction of the scene not black space
+		//avgLum[0]/=avgLum[1];
+
 		//printf("%f\n", avgLum[0]);
 		// see reinhard algo
 		const float midGrey = 1.03f - 2.0f/(2.0f+log10(avgLum[0] + 1.0f));
-		
+		   
+
+		static Sint64 i = 0;i++;
+		if (double(i)/60.0 >= 1.0) { i=0; printf("avglum %f, midgrey %f, fraction not space %f\n",avgLum[0],midGrey,avgLum[1]);}
+
+
 		glDisable(GL_TEXTURE_2D);
 		halfSizeRT->BeginRTT();
 		sceneRT->BindTexture();
