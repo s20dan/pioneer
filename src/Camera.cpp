@@ -71,7 +71,7 @@ static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
 		if (Render::IsHDREnabled()) {
 			for (int i=0; i<4; i++) {
 				// not too high or we overflow our float16 colorbuffer
-				lightCol[i] *= float(std::min(10.0*StarSystem::starLuminosities[body->type] / dist, 10000.0));
+				lightCol[i] *= float(Clamp(sqrt(50.0+StarSystem::starLuminosities[body->type] / dist), 1.0, 2000.0));//(std::min(10.0*StarSystem::starLuminosities[body->type] / dist, 10000.0));
 			}
 		}
 
