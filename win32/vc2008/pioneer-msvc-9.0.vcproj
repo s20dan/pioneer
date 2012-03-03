@@ -330,6 +330,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\graphics\Drawables.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\DynamicBody.cpp"
 				>
 			</File>
@@ -350,11 +354,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\FontConfig.cpp"
+				RelativePath="..\..\src\Font.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\FontManager.cpp"
+				RelativePath="..\..\src\FontCache.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\FontConfig.cpp"
 				>
 			</File>
 			<File
@@ -363,6 +371,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\Frame.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\Frustum.cpp"
 				>
 			</File>
 			<File
@@ -403,6 +415,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\GeoSphere.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\Graphics.cpp"
 				>
 			</File>
 			<File
@@ -527,6 +543,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\Lang.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Light.cpp"
 				>
 			</File>
 			<File
@@ -662,6 +682,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\graphics\Material.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\MathUtil.cpp"
 				>
 			</File>
@@ -742,19 +766,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\render\Render.cpp"
+				RelativePath="..\..\src\graphics\Renderer.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\render\RenderFrustum.cpp"
+				RelativePath="..\..\src\graphics\RendererGL2.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\render\RenderShader.cpp"
+				RelativePath="..\..\src\graphics\RendererLegacy.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\render\RenderTarget.cpp"
+				RelativePath="..\..\src\graphics\RenderTarget.cpp"
 				>
 			</File>
 			<File
@@ -771,6 +795,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\Sfx.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\Shader.cpp"
 				>
 			</File>
 			<File
@@ -831,6 +859,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\StarSystem.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\StaticMesh.cpp"
 				>
 			</File>
 			<File
@@ -1078,6 +1110,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\TextSupport.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Texture.cpp"
 				>
 			</File>
@@ -1095,6 +1131,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\VectorFont.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\VertexArray.cpp"
 				>
 			</File>
 			<File
@@ -1184,11 +1224,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\graphics\Drawables.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\DynamicBody.h"
 				>
 			</File>
 			<File
 				RelativePath="..\..\src\enum_table.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\EquipSet.h"
 				>
 			</File>
 			<File
@@ -1200,7 +1248,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\FileSelectorWidget.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\fixed.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Font.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\FontCache.h"
 				>
 			</File>
 			<File
@@ -1224,6 +1284,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\graphics\Frustum.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\GalacticView.h"
 				>
 			</File>
@@ -1232,11 +1296,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Game.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\GameConfig.h"
 				>
 			</File>
 			<File
 				RelativePath="..\..\src\gameconsts.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\GameLoaderSaver.h"
 				>
 			</File>
 			<File
@@ -1261,6 +1333,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\GeoSphere.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\Graphics.h"
 				>
 			</File>
 			<File
@@ -1404,6 +1480,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Light.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LmrModel.h"
 				>
 			</File>
@@ -1532,6 +1612,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\graphics\Material.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\MathUtil.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\matrix4x4.h"
 				>
 			</File>
@@ -1632,11 +1720,31 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\graphics\Renderer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\RendererGL2.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\RendererGLBuffers.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\RendererLegacy.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\render\RenderFrustum.h"
 				>
 			</File>
 			<File
 				RelativePath="..\..\src\render\RenderShader.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\RenderTarget.h"
 				>
 			</File>
 			<File
@@ -1661,6 +1769,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\Sfx.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\Shader.h"
 				>
 			</File>
 			<File
@@ -1724,6 +1836,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\graphics\StaticMesh.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\StationAdvertForm.h"
 				>
 			</File>
@@ -1768,6 +1884,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\graphics\Surface.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\SystemInfoView.h"
 				>
 			</File>
@@ -1792,6 +1912,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\TextSupport.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\TextureFont.h"
 				>
 			</File>
@@ -1804,11 +1928,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\vector2.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\vector3.h"
 				>
 			</File>
 			<File
 				RelativePath="..\..\src\VectorFont.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\VertexArray.h"
 				>
 			</File>
 			<File
