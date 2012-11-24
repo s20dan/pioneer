@@ -14,6 +14,7 @@ Alpha 29
        glitches (#1572)
      * Don't clear hyperspace target when the current system is selected in
        the Sector View (#1662)
+     * New track "Home Stretch" by Michael Talley
 
    * Fixes
      * Workaround shader glitches for planets with zero temperature (#1712)

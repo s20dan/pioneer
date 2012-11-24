@@ -34,6 +34,7 @@ As of 9 November 2012 (alpha 28), the Pioneer Developers are:
 * Leonardo Manna
 * Marcel Tulloh
 * Marcus de Roos
+* Michael Talley
 * Michele Botticelli
 * Nic
 * Paul Mahol
